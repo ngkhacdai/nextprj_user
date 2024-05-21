@@ -74,8 +74,7 @@ const Header = () => {
         <Col span={5}>
           <Dropdown menu={{ items }}>
             <Space className="cursor-pointer">
-              {/* ngkhacdai */}
-              {profile?.information?.fullName || ngkhacdai}
+              {profile?.information?.fullName || <div>Chưa có thông tin</div>}
             </Space>
           </Dropdown>
         </Col>

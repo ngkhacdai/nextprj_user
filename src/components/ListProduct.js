@@ -1,4 +1,4 @@
-import { API } from "@/url";
+import { API } from "@/helper/url";
 import { Col, Image, Row } from "antd";
 import Link from "next/link";
 
@@ -22,8 +22,7 @@ const ListProduct = ({ product }) => {
                   href={`/product/${item._id}`}
                   className="w-full hover:text-black"
                 >
-                  <Image
-                    preview={false}
+                  <img
                     alt={item.product_name}
                     className="w-full h-52 object-cover"
                     src={`${API}/uploads/${item.product_thumb[0]}`}

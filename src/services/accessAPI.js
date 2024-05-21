@@ -1,6 +1,5 @@
 "use server";
 
-import { API } from "@/url";
 import axios from "axios";
 import { cookies } from "next/headers";
 

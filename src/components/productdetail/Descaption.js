@@ -1,4 +1,4 @@
-import { API } from "@/url";
+import { API } from "@/helper/url";
 import { Image } from "antd";
 
 const Descaption = ({ ProductDetail }) => {

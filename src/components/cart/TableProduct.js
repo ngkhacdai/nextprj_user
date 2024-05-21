@@ -1,8 +1,11 @@
 import { Button, Table } from "antd";
 import { useDispatch } from "react-redux";
 
-import { API } from "@/url";
-import { updateUserCartQuantity } from "@/services/cartAPI";
+import { API } from "@/helper/url";
+import {
+  deleteProductInCart,
+  updateUserCartQuantity,
+} from "@/services/cartAPI";
 import { onSelectProduct } from "@/lib/features/cartSlice";
 const TableProduct = ({ cart, getData, setIsLoading }) => {
   const dispatch = useDispatch();

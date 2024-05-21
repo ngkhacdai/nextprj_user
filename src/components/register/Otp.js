@@ -1,5 +1,5 @@
 "use client";
-import { API } from "@/url";
+import { API } from "@/helper/url";
 import { Input, notification } from "antd";
 import Title from "antd/es/skeleton/Title";
 import axios from "axios";

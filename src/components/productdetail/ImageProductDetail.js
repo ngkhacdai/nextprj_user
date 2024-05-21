@@ -6,8 +6,7 @@ import "swiper/css/scrollbar";
 import "swiper/css/autoplay";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 
-import { API } from "@/url";
-import Image from "next/image";
+import { API } from "@/helper/url";
 const ImageProductDetail = ({ ProductDetail }) => {
   return (
     <Swiper

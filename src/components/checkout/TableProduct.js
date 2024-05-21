@@ -1,4 +1,4 @@
-import { API } from "@/url";
+import { API } from "@/helper/url";
 import { Table } from "antd";
 import { useSelector } from "react-redux";
 

@@ -3,7 +3,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { API } from "@/url";
+import { API } from "@/helper/url";
 
 const UpdateProfile = () => {
   const [file, setFile] = useState([]);

@@ -14,6 +14,7 @@ const Cart = () => {
   // localStorage.setItem("cart", cart._id);
   const getData = async () => {
     setCart(await getCart());
+    dispatch(onSelectProduct([]));
     setIsLoading(false);
   };
   useEffect(() => {

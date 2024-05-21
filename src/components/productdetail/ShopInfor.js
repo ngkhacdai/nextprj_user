@@ -1,4 +1,4 @@
-import { API } from "@/url";
+import { API } from "@/helper/url";
 import { Button } from "antd";
 import Link from "next/link";
 const ShopInfor = ({ ProductDetail }) => {

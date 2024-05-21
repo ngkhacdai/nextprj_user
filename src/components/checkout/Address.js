@@ -33,7 +33,7 @@ const Address = ({ address }) => {
         <hr />
         <Radio.Group onChange={handleRadioChange} value={selectIndex}>
           <Space direction="vertical">
-            {address.map((item, index) => {
+            {address?.map((item, index) => {
               return (
                 <Radio key={`address-${index}`} value={index}>
                   <Row className="">

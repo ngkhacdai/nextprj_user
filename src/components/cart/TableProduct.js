@@ -89,6 +89,7 @@ const TableProduct = ({ cart, getData, setIsLoading }) => {
     },
   ];
   const onDecrement = async (record) => {
+    if (record.quantity === 1) return;
     const shop_order_ids = [
       {
         shopId: record.shopId,

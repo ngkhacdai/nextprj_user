@@ -3,7 +3,6 @@ import { Col, Image, Row } from "antd";
 import Link from "next/link";
 
 const ListProduct = ({ product }) => {
-  console.log(product);
   return (
     <div className="px-2">
       <Row justify="start">

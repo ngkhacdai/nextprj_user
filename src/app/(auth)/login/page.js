@@ -1,14 +1,7 @@
-"use client";
-import FooterLogin from "@/components/login/FooterLogin";
-import LoginForm from "@/components/login/LoginForm";
+import Login from "@/components/login/Login";
 
-const Login = () => {
-  return (
-    <div className="w-full m-auto text-center mt-52">
-      <LoginForm />
-      <FooterLogin />
-    </div>
-  );
+const LoginPage = () => {
+  return <Login />;
 };
 
-export default Login;
+export default LoginPage;

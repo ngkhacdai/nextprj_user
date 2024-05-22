@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { onSelectProduct } from "@/lib/features/cartSlice";
 import Link from "next/link";
-import { addProductToCart } from "@/services/cartAPI";
+import { addProductToCart } from "@/api/Cart";
 
 const ProductInfo = ({ ProductDetail }) => {
   const [api, contextHolder] = notification.useNotification();
@@ -56,19 +56,16 @@ const ProductInfo = ({ ProductDetail }) => {
         "Hãy chọn các thuộc tính để thêm vào giỏ hàng"
       );
     }
-    const form = {
-      userId: localStorage.getItem("userID"),
-      product: {
-        productId: window.location.pathname.split("/")[2],
-        shopId: ProductDetail.shop_id,
-        quantity: count,
-        name: ProductDetail.product_name,
-        price: ProductDetail.product_price,
-        color: attribute.color,
-        size: options.size,
-      },
+    const product = {
+      productId: window.location.pathname.split("/")[2],
+      shopId: ProductDetail.shop_id,
+      quantity: count,
+      name: ProductDetail.product_name,
+      price: ProductDetail.product_price,
+      color: attribute.color,
+      size: options.size,
     };
-    await addProductToCart(form).then(() => {
+    await addProductToCart(product).then(() => {
       openNotificationWithIcon("Thêm vào giỏ hàng thành công", "success");
     });
   };

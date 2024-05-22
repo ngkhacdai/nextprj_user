@@ -2,7 +2,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Modal, Select, notification } from "antd";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { addAddress } from "@/services/userAPI";
+import { addAddress } from "@/api/User";
 
 const ModalAddress = ({ getData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,7 +54,6 @@ const ModalAddress = ({ getData }) => {
         address: address + " " + wardName + " " + districtName + " " + cityName,
       };
       await addAddress(form);
-      getData();
       setIsModalOpen(false);
       onClearForm();
     }

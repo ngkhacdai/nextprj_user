@@ -8,10 +8,11 @@ import {
   Row,
   notification,
 } from "antd";
-import axios from "@/services/customAxios";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { onSelectIndex } from "@/lib/features/addressSlice";
+import { PayProduct } from "@/api/CheckOut";
 
 const Method = ({ address }) => {
   const dispatch = useDispatch();
@@ -66,14 +67,7 @@ const Method = ({ address }) => {
       },
       user_payment: value,
     };
-    await axios
-      .post("/checkout/oder", orderData)
-      .then(() => {
-        router.push("/user/order");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    PayProduct(orderData);
     dispatch(onSelectIndex(0));
     setIsModalOpen(false);
   };
@@ -164,7 +158,7 @@ const Method = ({ address }) => {
         gutter={[10, 10]}
         className="flex justify-between p-5 items-center"
       >
-        <Col>
+        <Col xs={24} sm={24} md={24} lg={17}>
           <p>
             Nhấn {"Đặt hàng"} đồng nghĩa với việc bạn đồng ý tuân theo điều
             khoản của shop
@@ -183,7 +177,7 @@ const Method = ({ address }) => {
           >
             <Button
               onClick={payhandle}
-              className="w-full md:w-auto md:min-w-[14rem] h-12"
+              className="md:w-auto min-w-full h-12"
               type="primary"
             >
               Đặt hàng

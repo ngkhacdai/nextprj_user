@@ -1,4 +1,4 @@
-import { getProfile } from "@/services/userAPI";
+import { getProfile } from "@/api/User";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchUserInfo = createAsyncThunk(

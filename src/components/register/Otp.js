@@ -1,4 +1,5 @@
 "use client";
+import { verifyOtp } from "@/api/Access";
 import { API } from "@/helper/url";
 import { Input, notification } from "antd";
 import Title from "antd/es/skeleton/Title";
@@ -28,10 +29,8 @@ const Otp = ({ isRegister, setIsRegister }) => {
       email: isRegister.email,
       password: isRegister.password,
     };
-    await axios
-      .post(`${API}/v1/api/access/verifyOtp`, form)
+    await verifyOtp(form)
       .then((res) => {
-        localStorage.setItem("userID", res.data.newUser._id);
         router.push("/updateprofile");
       })
       .catch(() => {

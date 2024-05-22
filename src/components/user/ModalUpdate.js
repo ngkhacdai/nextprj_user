@@ -1,6 +1,6 @@
 "use client";
+import { updateProfile } from "@/api/User";
 import { fetchUserInfo } from "@/lib/features/userSlice";
-import { updateProfile } from "@/services/userAPI";
 import { PlusOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Modal, Radio, Upload } from "antd";
 import { useState } from "react";

@@ -1,7 +1,11 @@
-import React from "react";
+import Order from "@/components/user/Order";
 
-const page = () => {
-  return <div>Order</div>;
+const OrderStatusPage = ({ params }) => {
+  return (
+    <div>
+      <Order status={params.orderStatus} />
+    </div>
+  );
 };
 
-export default page;
+export default OrderStatusPage;

@@ -1,7 +1,6 @@
 "use client";
-import { API } from "@/helper/url";
+import { register } from "@/api/Access";
 import { Button, Form, Input, notification } from "antd";
-import axios from "axios";
 
 const RegisterForm = ({ setIsRegister }) => {
   const [api, contextHolder] = notification.useNotification();
@@ -24,8 +23,7 @@ const RegisterForm = ({ setIsRegister }) => {
       email: values.email,
       password: values.password,
     };
-    await axios
-      .post(`${API}/v1/api/access/signup`, form)
+    await register(form)
       .then(() => {
         setIsRegister(values);
       })

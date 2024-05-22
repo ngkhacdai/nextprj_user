@@ -15,8 +15,6 @@ instance.interceptors.request.use(async (request, res) => {
     request.headers["x-xclient-id"] = cookies().get("userID").value;
     request.headers["authorization"] = cookies().get("token").value;
   } else {
-    cookies().delete("token");
-    cookies().delete("userID");
     redirect("/login");
   }
   return request;

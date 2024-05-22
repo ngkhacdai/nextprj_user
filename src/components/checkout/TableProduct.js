@@ -1,10 +1,10 @@
+"use client";
 import { API } from "@/helper/url";
 import { Table } from "antd";
 import { useSelector } from "react-redux";
 
 const TableProduct = () => {
   const productSelected = useSelector((state) => state.cart.selectProduct);
-  console.log(productSelected);
   const columns = [
     {
       title: "Shop Name",

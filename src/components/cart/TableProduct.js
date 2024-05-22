@@ -1,14 +1,16 @@
+"use client";
 import { Button, Table } from "antd";
 import { useDispatch } from "react-redux";
-
 import { API } from "@/helper/url";
-import {
-  deleteProductInCart,
-  updateUserCartQuantity,
-} from "@/services/cartAPI";
+
 import { onSelectProduct } from "@/lib/features/cartSlice";
-const TableProduct = ({ cart, getData, setIsLoading }) => {
+import { useEffect } from "react";
+import { updateUserCartQuantity } from "@/api/Cart";
+const TableProduct = ({ cart, getData }) => {
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(onSelectProduct([]));
+  }, []);
   const columns = [
     {
       title: "Sản phẩm",
@@ -108,8 +110,6 @@ const TableProduct = ({ cart, getData, setIsLoading }) => {
       },
     ];
     await updateUserCartQuantity(shop_order_ids);
-    setIsLoading(true);
-    await getData();
   };
   const onIncrement = async (record) => {
     const shop_order_ids = [
@@ -127,8 +127,6 @@ const TableProduct = ({ cart, getData, setIsLoading }) => {
       },
     ];
     await updateUserCartQuantity(shop_order_ids);
-    setIsLoading(true);
-    await getData();
   };
   const onDeleteProduct = async (record) => {
     const form = {
@@ -137,8 +135,6 @@ const TableProduct = ({ cart, getData, setIsLoading }) => {
       color: record.color,
     };
     await deleteProductInCart(form);
-    setIsLoading(true);
-    await getData();
   };
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {

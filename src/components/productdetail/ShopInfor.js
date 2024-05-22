@@ -7,7 +7,6 @@ const ShopInfor = ({ ProductDetail }) => {
       <div className="ml-2">
         <img
           alt=""
-          preview={false}
           className="w-24 h-24 rounded-full border-black border mt-3"
           src={`${API}/${ProductDetail.shop_avatar}`}
         />

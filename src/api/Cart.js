@@ -1,18 +1,23 @@
 "use server";
-import axios from "@/services/customAxios";
+import { revalidatePath } from "next/cache";
+import { GET, POST } from "./route";
 import { cookies } from "next/headers";
 
-export const addProductToCart = async (form) => {
-  const response = await axios.post("/cartv2", form);
+export const addProductToCart = async (product) => {
+  const form = {
+    userId: cookies().get("userID").value,
+    product,
+  };
+  const response = await POST("/cartv2", form);
   return response;
 };
 export const getCart = async () => {
-  const response = await axios.get("/cartv2");
+  const response = await GET("/cartv2");
   return response.message.cart;
 };
 
 export const deleteProductInCart = async (form) => {
-  const response = await axios.post("/cartv2/delete", form);
+  const response = await POST("/cartv2/delete", form);
   revalidatePath("/cart");
   return response.message;
 };
@@ -22,7 +27,7 @@ export const updateUserCartQuantity = async (shop_order_ids) => {
     userId: cookies().get("userID").value,
     shop_order_ids,
   };
-  const response = await axios.post("/cartv2/update", formdata);
+  const response = await POST("/cartv2/update", formdata);
   revalidatePath("/cart");
   return response.message;
 };

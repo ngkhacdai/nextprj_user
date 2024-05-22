@@ -1,3 +1,4 @@
+"use client";
 import { login } from "@/services/accessAPI";
 import { Button, Form, Input, notification } from "antd";
 import axios from "axios";

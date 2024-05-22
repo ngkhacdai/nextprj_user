@@ -1,3 +1,4 @@
+"use client";
 import { API } from "@/helper/url";
 import { Col, Image, Row } from "antd";
 import { useRouter } from "next/navigation";

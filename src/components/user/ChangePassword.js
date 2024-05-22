@@ -1,5 +1,5 @@
 "use client";
-import { changePassword } from "@/services/userAPI";
+import { changePassword } from "@/api/User";
 import { Button, Form, Input, notification } from "antd";
 
 const ChangePassword = () => {

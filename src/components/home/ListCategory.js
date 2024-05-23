@@ -11,7 +11,7 @@ const ListCategory = ({ category }) => {
       id: select._id,
       name: select.category_name,
     }).toString();
-    router.push(`/category/${select._id}`);
+    router.push(`/category?${params}`);
   };
   return (
     <div className="bg-white p-2 mb-3">

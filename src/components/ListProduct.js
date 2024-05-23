@@ -1,6 +1,6 @@
 "use client";
 import { API } from "@/helper/url";
-import { Col, Image, Row } from "antd";
+import { Col, Row } from "antd";
 import Link from "next/link";
 
 const ListProduct = ({ product }) => {

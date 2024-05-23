@@ -5,20 +5,22 @@ import Link from "next/link";
 import { Col, Image, Row, Input, Space, Dropdown, Spin } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import logo from "@/assets/trustybuy.png";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 
 const { Search } = Input;
 
 const Header = (props) => {
   const { data } = props;
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const profile = data;
-  //   // const router = useRouter();
+  const router = useRouter();
 
-  //   useEffect(() => {
-  //     if (!profile) {
-  //       dispatch(fetchUserInfo());
-  //     }
-  //   }, []);
+  useEffect(() => {
+    if (!profile) {
+      dispatch(fetchUserInfo());
+    }
+  }, []);
 
   const items = [
     {
@@ -31,13 +33,13 @@ const Header = (props) => {
     },
   ];
 
-  // const onSearch = (value) => {
-  //   if (value === "") {
-  //     return router.push("/");
-  //   } else {
-  //     router.push(`/search?${value}`);
-  //   }
-  // };
+  const onSearch = (value) => {
+    if (value === "") {
+      return router.push("/");
+    } else {
+      router.push(`/search?keyword=${value}`);
+    }
+  };
 
   return (
     <div className="md:w-3/4 mx-auto">
@@ -59,7 +61,7 @@ const Header = (props) => {
           </Link>
         </Col>
         <Col xs={9} sm={11} md={13} lg={12} xl={12}>
-          <Search placeholder="Tìm kiếm sản phẩm" />
+          <Search onSearch={onSearch} placeholder="Tìm kiếm sản phẩm" />
         </Col>
         <Col span={1}>
           <Link href="/cart">
@@ -71,7 +73,7 @@ const Header = (props) => {
         </Col>
         <Col span={5}>
           <Dropdown menu={{ items }}>
-            <Space className="cursor-pointer">
+            <Space className="cursor-pointer break-words">
               {profile?.information?.fullName || <div>Chưa có thông tin</div>}
             </Space>
           </Dropdown>

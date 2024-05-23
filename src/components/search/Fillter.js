@@ -1,6 +1,7 @@
 "use client";
 import { Button, Modal, Radio, Space } from "antd";
 import { useState } from "react";
+import { FaFilter } from "react-icons/fa6";
 
 const Fillter = ({ productSearch = [], sortProduct }) => {
   const [isShowModal, setIsShopModal] = useState(false);
@@ -8,19 +9,8 @@ const Fillter = ({ productSearch = [], sortProduct }) => {
 
   const handleOk = () => {
     setIsShopModal(false);
-  };
 
-  const handleCancel = () => {
-    setIsShopModal(false);
-  };
-
-  const showModal = () => {
-    setIsShopModal(true);
-  };
-
-  const onChange = (e) => {
-    setValue(e.target.value);
-    switch (e.target.value) {
+    switch (value) {
       case 1:
         return sortProduct(productSearch);
       case 2:
@@ -58,9 +48,24 @@ const Fillter = ({ productSearch = [], sortProduct }) => {
     }
   };
 
+  const handleCancel = () => {
+    setIsShopModal(false);
+  };
+
+  const showModal = () => {
+    setIsShopModal(true);
+  };
+
+  const onChange = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
     <div>
-      <Button onClick={showModal}>Lọc</Button>
+      <Button onClick={showModal} className="flex items-center">
+        <FaFilter className="mr-2" />
+        <p>Bộ lọc</p>
+      </Button>
       <Modal
         title="Lọc sản phẩm"
         okText={"Lưu"}

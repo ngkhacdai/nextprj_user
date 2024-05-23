@@ -3,13 +3,16 @@ import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
 import ListProduct from "../ListProduct";
 import Fillter from "./Fillter";
+import { useSearchParams } from "next/navigation";
 
 const ProductList = ({ productData }) => {
   const [productSearch, setProductSearch] = useState([]);
-  const [product, setProduct] = useState();
-
+  const [product, setProduct] = useState(productData);
+  const searchParams = useSearchParams();
   useEffect(() => {
     const getData = async () => {
+      const searchText = searchParams.get("keyword");
+      console.log(searchText);
       setProductSearch(
         product.filter((product) =>
           product.product_name.toLowerCase().includes(searchText)
@@ -25,7 +28,7 @@ const ProductList = ({ productData }) => {
   }, []);
 
   const handleSearch = () => {
-    const pathParts = window.location.search.split("?")[1];
+    const pathParts = searchParams.get("keyword");
     // const encodedSearch = pathParts[1];
     const decodedSearch = decodeURIComponent(pathParts).toLowerCase();
     return decodedSearch;
@@ -44,7 +47,7 @@ const ProductList = ({ productData }) => {
       >
         <Col className="text-xl">
           Kết quả tìm kiếm:
-          {'"' + window.location.search.split("?")[1] + '"'}
+          {'"' + searchParams.get("keyword") + '"'}
         </Col>
         <Col>
           <Fillter productSearch={product} sortProduct={sortProduct} />

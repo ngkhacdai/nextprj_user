@@ -1,3 +1,4 @@
+"use server";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
@@ -13,7 +14,13 @@ export function middleware(request) {
     //   return NextResponse.next();
     return NextResponse.redirect(new URL("/login", request.url));
   }
-  if (token && userID && (pathname === "/login" || pathname === "/register")) {
+  if (
+    token &&
+    userID &&
+    (pathname === "/login" ||
+      pathname === "/register" ||
+      pathname === "/updateprofile")
+  ) {
     //   return NextResponse.next();
     return NextResponse.redirect(new URL("/", request.url));
   }

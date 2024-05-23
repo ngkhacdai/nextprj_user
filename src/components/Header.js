@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,7 @@ const { Search } = Input;
 const Header = () => {
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.user.profile);
-  // const router = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     if (!profile) {
@@ -33,13 +33,14 @@ const Header = () => {
     },
   ];
 
-  // const onSearch = (value) => {
-  //   if (value === "") {
-  //     return router.push("/");
-  //   } else {
-  //     router.push(`/search?${value}`);
-  //   }
-  // };
+  const onSearch = (value) => {
+    console.log("zzzzzz");
+    if (value === "") {
+      router.push("/");
+    } else {
+      router.push(`/search?${value}`);
+    }
+  };
 
   return (
     <div className="md:w-3/4 mx-auto">
@@ -61,7 +62,7 @@ const Header = () => {
           </Link>
         </Col>
         <Col xs={9} sm={11} md={13} lg={12} xl={12}>
-          <Search placeholder="Tìm kiếm sản phẩm" />
+          <Search placeholder="Tìm kiếm sản phẩm" onSearch={onSearch} />
         </Col>
         <Col span={1}>
           <Link href="/cart">

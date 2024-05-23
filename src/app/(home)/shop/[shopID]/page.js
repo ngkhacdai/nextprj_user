@@ -1,7 +1,8 @@
+import Shop from "@/components/shop/Shop";
 import React from "react";
 
-const page = () => {
-  return <div></div>;
+const page = ({ params }) => {
+  return <Shop shopID={params.shopID} />;
 };
 
 export default page;

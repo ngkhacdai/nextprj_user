@@ -1,7 +1,8 @@
+"use server";
 import { cookies } from "next/headers";
 
-export const dynamic = "force-dynamic"; // defaults to auto
-export const API = "https://dai.tongdaihoidap.com";
+// export const dynamic = "force-dynamic";
+const API = "https://dai.tongdaihoidap.com";
 
 export async function GET(request) {
   const userID = cookies().get("userID").value;

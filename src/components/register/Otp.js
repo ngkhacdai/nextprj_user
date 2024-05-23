@@ -1,9 +1,7 @@
 "use client";
 import { verifyOtp } from "@/api/Access";
-import { API } from "@/helper/url";
 import { Input, notification } from "antd";
 import Title from "antd/es/skeleton/Title";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 

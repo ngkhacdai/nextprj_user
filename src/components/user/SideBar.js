@@ -9,9 +9,10 @@ import {
 } from "@ant-design/icons";
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 const SideBar = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
-
+  const pathName = usePathname();
   function getItem(label, key, icon, children) {
     return {
       key,
@@ -52,12 +53,7 @@ const SideBar = ({ children }) => {
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
-        <Menu
-          theme="dark"
-          defaultSelectedKeys={[window.location.pathname]}
-          mode="inline"
-          items={items}
-        />
+        <Menu theme="dark" mode="inline" items={items} />
       </Sider>
       <Layout>
         <Header

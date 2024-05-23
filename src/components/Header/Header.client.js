@@ -7,6 +7,7 @@ import { ShoppingCartOutlined } from "@ant-design/icons";
 import logo from "@/assets/trustybuy.png";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
+import { fetchUserInfo } from "@/lib/features/userSlice";
 
 const { Search } = Input;
 
@@ -17,10 +18,8 @@ const Header = (props) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!profile) {
-      dispatch(fetchUserInfo());
-    }
-  }, []);
+    dispatch(fetchUserInfo());
+  }, [dispatch]);
 
   const items = [
     {

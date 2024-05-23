@@ -1,7 +1,6 @@
 "use client";
-import { login } from "@/services/accessAPI";
+import { login } from "@/api/Access";
 import { Button, Form, Input, notification } from "antd";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 const LoginForm = () => {
   const [api, contextHolder] = notification.useNotification();

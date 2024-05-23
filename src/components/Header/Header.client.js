@@ -8,6 +8,7 @@ import logo from "@/assets/trustybuy.png";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { fetchUserInfo } from "@/lib/features/userSlice";
+import { signout } from "@/api/Access";
 
 const { Search } = Input;
 
@@ -27,11 +28,13 @@ const Header = (props) => {
       key: "0",
     },
     {
-      label: <Link href="/logout">Đăng xuất</Link>,
+      label: <div onClick={() => logOut()}>Đăng xuất</div>,
       key: "1",
     },
   ];
-
+  const logOut = async () => {
+    await signout();
+  };
   const onSearch = (value) => {
     if (value === "") {
       return router.push("/");

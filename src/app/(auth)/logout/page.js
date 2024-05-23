@@ -1,9 +1,11 @@
-const Logout = () => {
+import Logout from "@/components/logout/Logout";
+
+const LogoutPage = () => {
   return (
     <div>
-      <h1>Logout</h1>
+      <Logout />
     </div>
   );
 };
 
-export default Logout;
+export default LogoutPage;

@@ -1,16 +1,19 @@
 "use client";
+import { cancelByUser } from "@/api/Order";
 import { API } from "@/helper/url";
 import { Button, Col, Dropdown, Menu, Row } from "antd";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 import { CiCircleQuestion, CiShop } from "react-icons/ci";
 import { IoMdChatbubbles } from "react-icons/io";
 import { MdOutlineLocalShipping } from "react-icons/md";
 
 const ListOrder = ({ orderData }) => {
+  console.log(orderData);
+  const getPathName = usePathname();
   const convertTimestamp = (timestamp) => {
     const date = new Date(timestamp);
-
     const year = date.getFullYear();
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
     const day = ("0" + date.getDate()).slice(-2);
@@ -18,6 +21,9 @@ const ListOrder = ({ orderData }) => {
     const minute = ("0" + date.getMinutes()).slice(-2);
     const second = ("0" + date.getSeconds()).slice(-2);
     return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+  };
+  const cancelOrder = async (id) => {
+    await cancelByUser(id, getPathName);
   };
   return (
     <div>
@@ -43,7 +49,17 @@ const ListOrder = ({ orderData }) => {
                 </Col>
                 <Col className="flex items-center">
                   <MdOutlineLocalShipping />
-                  <span className="mx-2">Chờ xác nhận</span>
+                  <span className="mx-2">
+                    {item.status === "pending" ? (
+                      <p>Chờ xác nhận</p>
+                    ) : item.status === "confirmed" ? (
+                      <p>Đã xác nhận</p>
+                    ) : item.status === "shipped" ? (
+                      <p>Đơn hàng đang được giao</p>
+                    ) : (
+                      item.status === "delivered" && <p>Giao hàng thành công</p>
+                    )}
+                  </span>
                   <Dropdown
                     overlay={
                       <Menu>
@@ -77,13 +93,25 @@ const ListOrder = ({ orderData }) => {
                   {item.order_checkout.totalPrice + item.order_checkout.feeShip}
                 </div>
               </div>
-              <Link href={`/product/${item.product_attributes.productId}`}>
-                <div className="flex justify-end mb-2">
-                  <Button className="mr-2" type="primary">
-                    Mua lại
+              <div className="flex justify-end mb-2">
+                {item.status === "pending" || item.status === "confirmed" ? (
+                  <Button onClick={() => cancelOrder(item.oderId)}>
+                    Hủy đơn hàng
                   </Button>
-                </div>
-              </Link>
+                ) : item.status === "shipped" ? (
+                  <Link href={`/review/${item.product_attributes.productId}`}>
+                    <Button className="mr-2" type="primary">
+                      Nhận hàng
+                    </Button>
+                  </Link>
+                ) : (
+                  <Link href={`/product/${item.product_attributes.productId}`}>
+                    <Button className="mr-2" type="primary">
+                      Mua lại
+                    </Button>
+                  </Link>
+                )}
+              </div>
               <hr />
             </div>
           );

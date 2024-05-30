@@ -95,13 +95,17 @@ const ProductInfo = ({ ProductDetail }) => {
             <span>
               <Rate
                 allowHalf
-                defaultValue={ProductDetail.product_ratingAverage}
+                defaultValue={ProductDetail?.product_ratingAverage}
                 disabled
               />
             </span>
           </Col>
           <Col>
-            <span>{ProductDetail.reviews.length}</span>
+            <span>
+              {ProductDetail?.reviews === "Chưa có đánh giá nào"
+                ? 0
+                : ProductDetail?.reviews.length}
+            </span>
             <span> Đánh giá</span>
           </Col>
           <Col>

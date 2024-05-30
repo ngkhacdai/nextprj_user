@@ -1,5 +1,9 @@
-import Order from "@/components/user/Order";
+import dynamic from "next/dynamic";
 
+// import Order from;
+const Order = dynamic(() => import("@/components/user/Order"), {
+  ssr: false,
+});
 const OrderStatusPage = ({ params }) => {
   return (
     <div>

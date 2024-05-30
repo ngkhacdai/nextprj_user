@@ -4,6 +4,7 @@ import ProductInfo from "./ProductInfo";
 import ShopInfor from "./ShopInfor";
 import Descaption from "./Descaption";
 import { getProduct } from "@/api/Product";
+import Review from "./Review";
 
 const ProductDetail = async ({ productID }) => {
   const productDetail = await getProduct(productID);
@@ -20,6 +21,9 @@ const ProductDetail = async ({ productID }) => {
         </Row>
         <div>
           <ShopInfor ProductDetail={productDetail} />
+        </div>
+        <div>
+          <Review productDetail={productDetail} />
         </div>
         <div>
           <Descaption ProductDetail={productDetail} />

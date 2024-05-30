@@ -1,4 +1,4 @@
-import { GET } from "./route";
+import { GET, POST } from "./route";
 
 export const getAllProduct = async () => {
   const response = await GET("/product/getAllProductByUser");
@@ -17,4 +17,8 @@ export const findProduct = async (name) => {
 export const getProductByCategory = async (id) => {
   const response = await GET(`/product/ofCategory/${id}`);
   return response.message.allProduct;
+};
+export const reviewProduct = async (id, form) => {
+  const response = await POST(`/product/reviewProduct/${id}`, form);
+  return;
 };

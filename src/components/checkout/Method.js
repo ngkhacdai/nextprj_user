@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { onSelectIndex } from "@/lib/features/addressSlice";
 import { PayProduct } from "@/api/CheckOut";
+import { onSelectProduct } from "@/lib/features/cartSlice";
 
 const Method = ({ address }) => {
   const dispatch = useDispatch();
@@ -67,8 +68,10 @@ const Method = ({ address }) => {
       },
       user_payment: value,
     };
-    PayProduct(orderData);
+    await PayProduct(orderData);
     dispatch(onSelectIndex(0));
+    dispatch(onSelectProduct([]));
+    router.push("/user/order");
     setIsModalOpen(false);
   };
   const handleCancel = () => {

@@ -1,5 +1,8 @@
-import Profile from "@/components/user/Profile";
-
+import dynamic from "next/dynamic";
+const Profile = dynamic(() => import("@/components/user/Profile"), {
+  suspense: true,
+  ssr: false,
+});
 const page = () => {
   return (
     <div>

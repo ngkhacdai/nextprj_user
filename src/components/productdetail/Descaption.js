@@ -16,7 +16,7 @@ const Descaption = ({ ProductDetail }) => {
                 alt=""
                 preview={false}
                 src={`${API}/uploads/${item}`}
-                className="mt-2 w-full"
+                className="mt-2 w-screen"
               />
             </div>
           );

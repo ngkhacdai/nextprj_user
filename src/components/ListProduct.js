@@ -9,15 +9,7 @@ const ListProduct = ({ product }) => {
       <Row justify="start">
         {product && product.length > 0 ? (
           product.map((item, index) => (
-            <Col
-              xs={12}
-              sm={6}
-              md={6}
-              lg={4}
-              xl={4}
-              key={`product-${index}`}
-              className="p-2"
-            >
+            <Col xs={12} sm={6} xl={4} key={`product-${index}`} className="p-2">
               <div className="bg-white border border-transparent p-2 hover:drop-shadow-lg hover:border-green-500 transition">
                 <Link
                   href={`/product/${item._id}`}

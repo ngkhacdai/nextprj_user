@@ -11,3 +11,7 @@ export const cancelByUser = async (id, getPathName) => {
   revalidatePath(getPathName);
   return response;
 };
+export const changeStatusByUser = async (form) => {
+  const response = await PATCH(`/checkout/changeStatus`, form);
+  return response;
+};

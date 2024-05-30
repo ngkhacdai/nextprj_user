@@ -1,9 +1,9 @@
 "use client";
-import { cancelByUser } from "@/api/Order";
+import { cancelByUser, changeStatusByUser } from "@/api/Order";
 import { API } from "@/helper/url";
 import { Button, Col, Dropdown, Menu, Row } from "antd";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { CiCircleQuestion, CiShop } from "react-icons/ci";
 import { IoMdChatbubbles } from "react-icons/io";
@@ -12,6 +12,7 @@ import { MdOutlineLocalShipping } from "react-icons/md";
 const ListOrder = ({ orderData }) => {
   console.log(orderData);
   const getPathName = usePathname();
+  const router = useRouter();
   const convertTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const year = date.getFullYear();
@@ -21,6 +22,14 @@ const ListOrder = ({ orderData }) => {
     const minute = ("0" + date.getMinutes()).slice(-2);
     const second = ("0" + date.getSeconds()).slice(-2);
     return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+  };
+  const deliveredHandle = async (orderID, productID) => {
+    const form = {
+      order_id: orderID,
+      status: "delivered",
+    };
+    await changeStatusByUser(form);
+    router.push(`/review/${productID}`);
   };
   const cancelOrder = async (id) => {
     await cancelByUser(id, getPathName);
@@ -99,11 +108,18 @@ const ListOrder = ({ orderData }) => {
                     Hủy đơn hàng
                   </Button>
                 ) : item.status === "shipped" ? (
-                  <Link href={`/review/${item.product_attributes.productId}`}>
-                    <Button className="mr-2" type="primary">
-                      Nhận hàng
-                    </Button>
-                  </Link>
+                  <Button
+                    onClick={() =>
+                      deliveredHandle(
+                        item.oderId,
+                        item.product_attributes.productId
+                      )
+                    }
+                    className="mr-2"
+                    type="primary"
+                  >
+                    Nhận hàng
+                  </Button>
                 ) : (
                   <Link href={`/product/${item.product_attributes.productId}`}>
                     <Button className="mr-2" type="primary">

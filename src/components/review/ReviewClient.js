@@ -21,7 +21,7 @@ const ReviewClient = ({ productID }) => {
     <div className="text-center p-2">
       {contextHolder}
       <p className="font-bold text-2xl mb-2">Đánh giá sản phẩm</p>
-      <Form onFinish={onFinish} initialValues={{ rate: 5 }}>
+      <Form onFinish={onFinish} initialValues={{ rating: 5 }}>
         <Form.Item name="rating">
           <Rate allowHalf />
         </Form.Item>

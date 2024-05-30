@@ -12,6 +12,6 @@ export const cancelByUser = async (id, getPathName) => {
   return response;
 };
 export const changeStatusByUser = async (form) => {
-  const response = await PATCH(`/checkout/changeStatus`, form);
+  const response = await PATCH(`/checkout/changeStatusByUser`, form);
   return response;
 };

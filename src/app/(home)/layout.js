@@ -14,7 +14,7 @@ export default function HomeLayout({ children }) {
   return (
     <div>
       <Affix offsetTop={0}>
-        <div className="bg-green-300">
+        <div className="bg-white">
           <HeaderComponent />
         </div>
       </Affix>

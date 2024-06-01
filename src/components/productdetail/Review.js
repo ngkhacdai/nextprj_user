@@ -27,7 +27,9 @@ const RatingBreakdown = ({ distribution }) => {
             <div
               className="bg-black h-4"
               style={{
-                width: `${(distribution[rating] / totalRatings) * 100}%`,
+                width: `${
+                  totalRatings ? (distribution[rating] / totalRatings) * 100 : 0
+                }%`,
               }}
             />
           </div>

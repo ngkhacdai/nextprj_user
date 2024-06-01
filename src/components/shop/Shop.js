@@ -13,7 +13,7 @@ const Shop = async ({ shopID }) => {
       <div className="bg-white">
         <HeaderShop shopData={shopData} />
       </div>
-      <div className="md:w-3/4  mx-auto mt-2">
+      <div className="md:w-5/6 mx-auto mt-2">
         <ListDiscount shopDiscount={shopDiscount} />
         <ListProductShop shopData={shopData} />
       </div>

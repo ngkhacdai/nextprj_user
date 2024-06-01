@@ -1,16 +1,25 @@
 "use client";
 import { API } from "@/helper/url";
-import { Col, Row } from "antd";
+import { Button, Col, Row } from "antd";
 import Link from "next/link";
+import { FaStar } from "react-icons/fa6";
 
 const ListProduct = ({ product }) => {
   return (
-    <div className="px-2">
-      <Row justify="start">
+    <div className="">
+      <Row justify="start" className="container mx-auto">
         {product && product.length > 0 ? (
           product.map((item, index) => (
-            <Col xs={12} sm={6} xl={4} key={`product-${index}`} className="p-2">
-              <div className="bg-white border border-transparent p-2 hover:drop-shadow-lg hover:border-green-500 transition">
+            <Col
+              xs={12}
+              sm={12}
+              md={6}
+              lg={6}
+              xl={4}
+              key={`product-${index}`}
+              className="p-2"
+            >
+              <div className="bg-white border-2 border-transparent hover:drop-shadow-lg hover:border-green-500 transition">
                 <Link
                   href={`/product/${item._id}`}
                   className="w-full hover:text-black"
@@ -22,24 +31,40 @@ const ListProduct = ({ product }) => {
                   />
                   <div className="p-2">
                     <p
-                      className="truncate text-black"
+                      className="text-black"
                       style={{
                         lineHeight: "1.5em",
-                        height: "2em",
+                        height: "3em",
                         overflow: "hidden",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                        textOverflow: "ellipsis",
+                        wordBreak: "break-word",
                       }}
                     >
                       {item.product_name}
                     </p>
+                    <div className="text-red-500 font-bold">
+                      {item.product_price.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </div>
                     <Row justify="space-between">
-                      <Col className="text-red-500">
-                        {item.product_price.toLocaleString("en-US", {
-                          style: "currency",
-                          currency: "VND",
-                        })}
+                      <Col className="text-black text-xs">
+                        Đã bán: {item.product_sold}
+                      </Col>
+                    </Row>
+                    <Row justify="space-between" className="pt-1">
+                      <Col className="flex items-center">
+                        <p className="text-black text-xs">
+                          {item.product_ratingAverage}/5
+                        </p>
+                        <FaStar color="yellow" />
                       </Col>
                       <Col className="text-black">
-                        Đã bán: {item.product_sold}
+                        <Button>Chi tiết</Button>
                       </Col>
                     </Row>
                   </div>

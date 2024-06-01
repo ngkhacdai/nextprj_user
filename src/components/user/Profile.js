@@ -1,3 +1,4 @@
+import { getProfile } from "@/api/User";
 import dynamic from "next/dynamic";
 
 const Information = dynamic(() => import("./profile/Information"), {
@@ -6,7 +7,8 @@ const Information = dynamic(() => import("./profile/Information"), {
 // import Information from "./profile/Information";
 
 const Profile = async () => {
-  return <Information />;
+  const profile = await getProfile();
+  return <Information profile={profile} />;
 };
 
 export default Profile;

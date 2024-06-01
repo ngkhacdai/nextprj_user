@@ -10,7 +10,7 @@ const ProductDetail = async ({ productID }) => {
   const productDetail = await getProduct(productID);
   return (
     <div>
-      <div className=" md:w-3/4  mx-auto">
+      <div className=" md:w-5/6 mx-auto">
         <Row className="bg-white p-2">
           <Col xs={24} sm={24} md={24} lg={24} xl={11}>
             <ImageProductDetail ProductDetail={productDetail} />

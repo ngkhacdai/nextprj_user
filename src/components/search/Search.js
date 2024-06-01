@@ -4,7 +4,7 @@ import { getAllProduct } from "@/api/Product";
 const Search = async () => {
   const productData = await getAllProduct();
   return (
-    <div className="md:w-3/4 mx-auto">
+    <div className="md:w-5/6 mx-auto">
       <ProductList productData={productData} />
     </div>
   );

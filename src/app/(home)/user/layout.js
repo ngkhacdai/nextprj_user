@@ -5,7 +5,7 @@ import { Suspense } from "react";
 export default function UserLayout({ children }) {
   return (
     <Suspense fallback={<Loading />}>
-      <div className="h-full mx-auto sm:w-3/4">
+      <div className="h-full">
         <SideBar>{children}</SideBar>
       </div>
     </Suspense>

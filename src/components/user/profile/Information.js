@@ -5,8 +5,7 @@ import ModalUpdate from "./ModalUpdate";
 import { API } from "@/helper/url";
 import { useSelector } from "react-redux";
 
-const Information = () => {
-  const profile = useSelector((state) => state.user.profile);
+const Information = ({ profile }) => {
   function hideEmail(email) {
     const parts = email.split("@");
     const visiblePart = parts[0].substring(0, 2);
@@ -26,10 +25,10 @@ const Information = () => {
       <hr />
       <Row justify="space-between">
         <Col>
-          <div className="flex mb-2">
+          {/* <div className="flex mb-2">
             <p className="mr-4 w-24 text-right">Tên đăng nhập</p>
             <span>{profile.email}</span>
-          </div>
+          </div> */}
           <div className="flex mb-2">
             <p className="mr-4 w-24 text-right">Tên</p>
             <p>

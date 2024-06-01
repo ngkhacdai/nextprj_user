@@ -1,13 +1,19 @@
 import { getProductByCategory } from "@/api/Product";
-import ListProduct from "../ListProduct";
+import { getAllCategory } from "@/api/Category";
+import CategoryClient from "./Category.client";
 
 const Category = async ({ searchParams }) => {
   const categoryData = await getProductByCategory(searchParams.id);
-
+  const category = await getAllCategory();
+  // console.log(category);
+  // console.log(categoryData);
   return (
-    <div className="md:w-3/4 mx-auto">
-      <p>Danh mục: {searchParams.name}</p>
-      <ListProduct product={categoryData} />
+    <div>
+      <CategoryClient
+        searchParams={searchParams}
+        categoryData={categoryData}
+        category={category}
+      />
     </div>
   );
 };

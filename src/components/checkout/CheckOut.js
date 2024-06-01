@@ -10,7 +10,7 @@ const CheckOut = async () => {
   const address = await getAddress();
   return (
     <div>
-      <div className="mx-auto md:w-3/4">
+      <div className="mx-auto md:w-5/6">
         <Address address={address} />
         <TableProduct />
         <Method address={address} />

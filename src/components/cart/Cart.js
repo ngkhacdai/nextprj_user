@@ -8,7 +8,7 @@ const Cart = async () => {
 
   return (
     <div>
-      <div className="md:w-3/4 mx-auto">
+      <div className="md:w-5/6 mx-auto">
         <div className=" bg-white">
           <TableProduct cart={cart} />
         </div>

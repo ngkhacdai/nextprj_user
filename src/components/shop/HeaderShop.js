@@ -27,7 +27,7 @@ const HeaderShop = ({ shopData }) => {
   };
 
   return (
-    <div className="md:w-3/4 mx-auto bg-white shadow-lg rounded-lg p-4">
+    <div className="md:w-5/6 mx-auto bg-white shadow-lg rounded-lg p-4">
       <Row gutter={[20, 20]} className="flex items-center">
         <Col>
           <img

@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import Link from "next/link";
-import { Col, Image, Row, Input, Space, Dropdown, Spin } from "antd";
+import { Col, Row, Input, Space, Dropdown } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import logo from "@/assets/trustybuy.png";
 import { useRouter } from "next/navigation";
@@ -28,8 +28,30 @@ const Header = (props) => {
       key: "0",
     },
     {
-      label: <div onClick={() => logOut()}>Đăng xuất</div>,
+      label: <Link href="/user/order">Đơn mua</Link>,
       key: "1",
+    },
+    {
+      label: <div onClick={() => logOut()}>Đăng xuất</div>,
+      key: "2",
+    },
+  ];
+  const items2 = [
+    {
+      label: <Link href="/user">Tài khoản của tôi</Link>,
+      key: "0",
+    },
+    {
+      label: <Link href="/cart">Giỏ hàng</Link>,
+      key: "1",
+    },
+    {
+      label: <Link href="/user/order">Đơn mua</Link>,
+      key: "2",
+    },
+    {
+      label: <div onClick={() => logOut()}>Đăng xuất</div>,
+      key: "3",
     },
   ];
   const logOut = async () => {
@@ -44,7 +66,7 @@ const Header = (props) => {
   };
 
   return (
-    <div className="md:w-3/4 mx-auto">
+    <div className="md:w-5/6 mx-auto">
       <Row
         justify="space-between"
         gutter={[0, 0]}
@@ -52,20 +74,15 @@ const Header = (props) => {
           alignItems: "center",
         }}
       >
-        <Col span={5}>
+        <Col xs={6} sm={5}>
           <Link href="/">
-            <Image
-              preview={false}
-              src={logo.src}
-              style={{ height: 100 }}
-              alt="TrustyBuy Logo"
-            />
+            <img src={logo.src} className="w-28" alt="TrustyBuy Logo" />
           </Link>
         </Col>
         <Col xs={9} sm={11} md={13} lg={12} xl={12}>
           <Search onSearch={onSearch} placeholder="Tìm kiếm sản phẩm" />
         </Col>
-        <Col span={1}>
+        <Col className="xs:block hidden" span={1}>
           <Link href="/cart">
             <ShoppingCartOutlined
               style={{ fontSize: "20px", color: "black" }}
@@ -73,8 +90,15 @@ const Header = (props) => {
             />
           </Link>
         </Col>
-        <Col span={5}>
-          <Dropdown menu={{ items }}>
+        <Col className=" text-right xs:flex hidden" span={5}>
+          <Dropdown className="" menu={{ items }}>
+            <Space className="cursor-pointer break-words">
+              {profile?.information?.fullName || <div>Chưa có thông tin</div>}
+            </Space>
+          </Dropdown>
+        </Col>
+        <Col className="xs:hidden">
+          <Dropdown menu={{ items: items2 }}>
             <Space className="cursor-pointer break-words">
               {profile?.information?.fullName || <div>Chưa có thông tin</div>}
             </Space>

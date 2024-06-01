@@ -43,7 +43,7 @@ const Header = () => {
   };
 
   return (
-    <div className="md:w-3/4 mx-auto">
+    <div className="md:w-5/6 mx-auto">
       <Row
         justify="space-between"
         gutter={[0, 0]}

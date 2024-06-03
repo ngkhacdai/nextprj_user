@@ -11,8 +11,8 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { onSelectProduct } from "@/lib/features/cartSlice";
-import Link from "next/link";
 import { addProductToCart } from "@/api/Cart";
+import { useRouter } from "next/navigation";
 
 const ProductInfo = ({ ProductDetail }) => {
   const [api, contextHolder] = notification.useNotification();
@@ -20,6 +20,7 @@ const ProductInfo = ({ ProductDetail }) => {
   const [attribute, setAttribute] = useState("");
   const [options, setOptions] = useState("");
   const [count, setCount] = useState(1);
+  const router = useRouter();
   const onSelectAttributed = (e) => {
     setCount(1);
     setAttribute(e.target.value);
@@ -32,8 +33,13 @@ const ProductInfo = ({ ProductDetail }) => {
     setOptions("");
   }, [attribute]);
   const payProduct = async () => {
+    if (count > options.options_quantity) {
+      return openNotificationWithIcon("Số lượng sản phẩm trong kho không đủ");
+    }
     if (!attribute || !options) {
-      return toast.error("Hãy chọn các thuộc tính để thêm vào giỏ hàng");
+      return openNotificationWithIcon(
+        "Hãy chọn các thuộc tính để thêm vào giỏ hàng"
+      );
     }
     const form = [
       {
@@ -49,8 +55,12 @@ const ProductInfo = ({ ProductDetail }) => {
       },
     ];
     dispatch(onSelectProduct(form));
+    router.push("/checkout");
   };
   const addToCart = async () => {
+    if (count > options.options_quantity) {
+      return openNotificationWithIcon("Số lượng sản phẩm trong kho không đủ");
+    }
     if (!attribute || !options) {
       return openNotificationWithIcon(
         "Hãy chọn các thuộc tính để thêm vào giỏ hàng"
@@ -81,7 +91,7 @@ const ProductInfo = ({ ProductDetail }) => {
   };
   const openNotificationWithIcon = (content, type = "error") => {
     api[type]({
-      message: "Notification Error",
+      message: "Thông báo",
       description: content,
     });
   };
@@ -164,11 +174,9 @@ const ProductInfo = ({ ProductDetail }) => {
               Mua ngay
             </Button>
           ) : (
-            <Link href="/checkout">
-              <Button type="primary" onClick={payProduct}>
-                Mua ngay
-              </Button>
-            </Link>
+            <Button type="primary" onClick={payProduct}>
+              Mua ngay
+            </Button>
           )}
         </ConfigProvider>
       </div>

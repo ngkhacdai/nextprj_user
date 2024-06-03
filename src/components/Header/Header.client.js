@@ -90,7 +90,7 @@ const Header = (props) => {
             />
           </Link>
         </Col>
-        <Col className=" text-right xs:flex hidden" span={5}>
+        <Col className=" text-right xs:flex hidden justify-end" span={5}>
           <Dropdown className="" menu={{ items }}>
             <Space className="cursor-pointer break-words">
               {profile?.information?.fullName || <div>Chưa có thông tin</div>}
@@ -99,7 +99,7 @@ const Header = (props) => {
         </Col>
         <Col className="xs:hidden">
           <Dropdown menu={{ items: items2 }}>
-            <Space className="cursor-pointer break-words">
+            <Space className="cursor-pointer flex justify-end break-words">
               {profile?.information?.fullName || <div>Chưa có thông tin</div>}
             </Space>
           </Dropdown>

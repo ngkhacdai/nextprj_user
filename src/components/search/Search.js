@@ -1,5 +1,6 @@
-import ProductList from "./ProductList";
+const ProductList = dynamic(() => import("./ProductList"), { ssr: false });
 import { getAllProduct } from "@/api/Product";
+import dynamic from "next/dynamic";
 
 const Search = async () => {
   const productData = await getAllProduct();

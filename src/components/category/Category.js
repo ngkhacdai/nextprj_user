@@ -5,8 +5,6 @@ import CategoryClient from "./Category.client";
 const Category = async ({ searchParams }) => {
   const categoryData = await getProductByCategory(searchParams.id);
   const category = await getAllCategory();
-  // console.log(category);
-  // console.log(categoryData);
   return (
     <div>
       <CategoryClient

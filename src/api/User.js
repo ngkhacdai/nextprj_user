@@ -33,5 +33,6 @@ export const changePassword = async (form) => {
 };
 export const followShop = async (idShop) => {
   const response = await GET(`/user/followShop/${idShop}`);
+  revalidatePath("/shop/idShop");
   return response;
 };

@@ -7,15 +7,13 @@ import { MdOutlineLocalPhone } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { API } from "@/helper/url";
 import { followShop } from "@/api/User";
-const HeaderShop = ({ shopData }) => {
+const HeaderShop = ({ userID, shopData }) => {
   const [checkFollower, setCheckFollower] = useState(false);
   const data = shopData;
-  // useEffect(() => {
-  //   const findFollower = data.shop.follower.find(
-  //     (item) => item === localStorage.getItem("userID")
-  //   );
-  //   if (findFollower) setCheckFollower(true);
-  // }, [data]);
+  useEffect(() => {
+    const findFollower = data.shop.follower.find((item) => item === userID);
+    if (findFollower) setCheckFollower(true);
+  }, []);
 
   const handleFollow = async () => {
     try {

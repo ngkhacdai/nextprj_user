@@ -51,22 +51,22 @@ const ListProduct = ({ product }) => {
                         currency: "VND",
                       })}
                     </div>
-                    <Row justify="space-between">
-                      <Col className="text-black text-xs">
+                    <div justify="space-between">
+                      <p className="text-black text-xs">
                         Đã bán: {item.product_sold}
-                      </Col>
-                    </Row>
-                    <Row justify="space-between" className="pt-1">
-                      <Col className="flex items-center">
+                      </p>
+                    </div>
+                    <div className="flex justify-between pt-1">
+                      <div className="flex items-center">
                         <p className="text-black text-xs">
                           {item.product_ratingAverage}/5
                         </p>
                         <FaStar color="yellow" />
-                      </Col>
-                      <Col className="text-black">
+                      </div>
+                      <div className="text-black">
                         <Button>Chi tiết</Button>
-                      </Col>
-                    </Row>
+                      </div>
+                    </div>
                   </div>
                 </Link>
               </div>

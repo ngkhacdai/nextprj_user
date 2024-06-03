@@ -7,7 +7,7 @@ const LoginForm = () => {
   const router = useRouter();
   const openNotificationWithIcon = (content) => {
     api["error"]({
-      message: "Notification Error",
+      message: "Thông báo lỗi",
       description: content,
     });
   };
@@ -27,18 +27,13 @@ const LoginForm = () => {
   };
   const onFinishFailed = (errorInfo) => {};
   return (
-    <div>
+    <div className="flex flex-col items-center border-inherit mb-2">
       <p className="mb-5 text-2xl font-bold">Đăng nhập</p>
       {contextHolder}
       <Form
+        layout="vertical"
         name="basic"
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 8,
-        }}
-        className="w-full"
+        className="w-3/4"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
@@ -70,16 +65,9 @@ const LoginForm = () => {
           <Input.Password />
         </Form.Item>
 
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 8,
-          }}
-        >
-          <Button type="primary" htmlType="submit">
-            Đăng nhập
-          </Button>
-        </Form.Item>
+        <Button type="primary" htmlType="submit">
+          Đăng nhập
+        </Button>
       </Form>
     </div>
   );

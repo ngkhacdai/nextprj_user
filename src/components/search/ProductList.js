@@ -9,23 +9,17 @@ const ProductList = ({ productData }) => {
   const [productSearch, setProductSearch] = useState([]);
   const [product, setProduct] = useState(productData);
   const searchParams = useSearchParams();
+  const searchText = searchParams.get("keyword");
   useEffect(() => {
     const getData = async () => {
-      const searchText = searchParams.get("keyword");
-      console.log(searchText);
       setProductSearch(
         product.filter((product) =>
-          product.product_name.toLowerCase().includes(searchText)
-        )
-      );
-      setProduct(
-        product.filter((product) =>
-          product.product_name.toLowerCase().includes(searchText)
+          product.product_name.toLowerCase().includes(searchText.toLowerCase())
         )
       );
     };
     getData();
-  }, []);
+  }, [searchText]);
 
   const handleSearch = () => {
     const pathParts = searchParams.get("keyword");

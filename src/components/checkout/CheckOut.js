@@ -1,10 +1,10 @@
 import { getAddress } from "@/api/User";
 import Address from "./Address";
-// import Method from "./Method";
+import Method from "./Method";
 import dynamic from "next/dynamic";
-// import TableProduct from "./TableProduct";
-const TableProduct = dynamic(() => import("./TableProduct"), { ssr: false });
-const Method = dynamic(() => import("./Method"), { ssr: false });
+import TableProduct from "./TableProduct";
+// const TableProduct = dynamic(() => import("./TableProduct"), { ssr: false });
+// const Method = dynamic(() => import("./Method"), { ssr: false });
 
 const CheckOut = async () => {
   const address = await getAddress();

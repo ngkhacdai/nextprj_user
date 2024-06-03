@@ -1,13 +1,10 @@
 "use client";
-import { onSelectIndex } from "@/lib/features/addressSlice";
 import { Button, Col, Modal, Radio, Row, Space } from "antd";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 const Address = ({ address }) => {
-  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const selectIndex = useSelector((state) => state.address.selectIndex);
+  const [selectIndex, setSelectedIndex] = useState(0);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -18,7 +15,7 @@ const Address = ({ address }) => {
     setIsModalOpen(false);
   };
   const handleRadioChange = (e) => {
-    dispatch(onSelectIndex(parseInt(e.target.value)));
+    setSelectedIndex(e.target.value);
   };
 
   return (
@@ -29,6 +26,7 @@ const Address = ({ address }) => {
         visible={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        okButtonProps={{ style: { display: "none" } }}
       >
         <hr />
         <Radio.Group onChange={handleRadioChange} value={selectIndex}>
@@ -67,7 +65,7 @@ const Address = ({ address }) => {
           </Col>
         </Row>
       ) : (
-        <div></div>
+        <div>Chưa có địa chỉ</div>
       )}
     </div>
   );

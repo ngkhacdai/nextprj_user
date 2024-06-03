@@ -35,14 +35,17 @@ const CategoryClient = ({ searchParams, categoryData, category }) => {
   };
 
   return (
-    <div className="xl:w-5/6 mx-auto container">
+    <div className="pt-2 xl:w-5/6 mx-auto container">
+      {/* <Button className="h-8 my-2 items-center flex xs:hidden">Lọc</Button> */}
+
       <Row justify="space-between">
         <Col span={4} className="hidden xs:flex">
           <MenuCategory category={category} />
         </Col>
         <Col xs={24} sm={20}>
-          <CardCategory searchParams={searchParams} category={category} />
-          <Button className="h-8 my-2 items-center flex xs::hidden">Lọc</Button>
+          <div className="px-2">
+            <CardCategory searchParams={searchParams} category={category} />
+          </div>
           <div className="h-8 my-2 items-center hidden xs:flex">
             <p className="pr-2">Sắp xếp theo: </p>
             <Radio.Group

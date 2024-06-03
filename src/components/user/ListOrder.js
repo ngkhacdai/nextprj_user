@@ -10,7 +10,6 @@ import { IoMdChatbubbles } from "react-icons/io";
 import { MdOutlineLocalShipping } from "react-icons/md";
 
 const ListOrder = ({ orderData }) => {
-  console.log(orderData);
   const getPathName = usePathname();
   const router = useRouter();
   const convertTimestamp = (timestamp) => {

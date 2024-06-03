@@ -5,7 +5,7 @@ import { API } from "@/helper/url";
 
 import { onSelectProduct } from "@/lib/features/cartSlice";
 import { useEffect } from "react";
-import { updateUserCartQuantity } from "@/api/Cart";
+import { deleteProductInCart, updateUserCartQuantity } from "@/api/Cart";
 const TableProduct = ({ cart, getData }) => {
   const dispatch = useDispatch();
   useEffect(() => {

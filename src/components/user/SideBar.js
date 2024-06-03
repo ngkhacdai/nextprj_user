@@ -51,9 +51,17 @@ const SideBar = ({ children }) => {
         collapsedWidth={0}
         trigger={null}
         collapsed={collapsed}
+        className="sticky top-0 left-0"
+        // className="bg-white"
         onCollapse={(value) => setCollapsed(value)}
       >
-        <Menu theme="dark" mode="inline" items={items} />
+        <Menu
+          theme="dark"
+          // className="bg-white"
+          defaultSelectedKeys={pathName}
+          mode="inline"
+          items={items}
+        />
       </Sider>
       <Layout>
         <Header

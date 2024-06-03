@@ -6,6 +6,7 @@ import {
   Modal,
   Radio,
   Row,
+  Spin,
   notification,
 } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,9 +25,10 @@ const Method = ({ address }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const selectIndex = useSelector((state) => state.address.selectIndex);
   const [api, contextHolder] = notification.useNotification();
+  const [loading, setLoading] = useState(false);
   const openNotificationWithIcon = (content) => {
     api["error"]({
-      message: "Notification Error",
+      message: "Thông báo lỗi",
       description: content,
     });
   };
@@ -68,9 +70,10 @@ const Method = ({ address }) => {
       },
       user_payment: value,
     };
-    await PayProduct(orderData);
+    setLoading(true);
     dispatch(onSelectIndex(0));
     dispatch(onSelectProduct([]));
+    await PayProduct(orderData);
     router.push("/user/order");
     setIsModalOpen(false);
   };
@@ -90,7 +93,9 @@ const Method = ({ address }) => {
   const payhandle = () => {
     showModal();
   };
-
+  if (loading) {
+    return <Spin fullscreen />;
+  }
   return (
     <div className="bg-white mt-2 p-2">
       {contextHolder}

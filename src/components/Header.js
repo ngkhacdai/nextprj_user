@@ -34,7 +34,6 @@ const Header = () => {
   ];
 
   const onSearch = (value) => {
-    console.log("zzzzzz");
     if (value === "") {
       router.push("/");
     } else {

@@ -1,4 +1,8 @@
-import CheckOut from "@/components/checkout/CheckOut";
+import dynamic from "next/dynamic";
+
+const CheckOut = dynamic(() => import("@/components/checkout/CheckOut"), {
+  ssr: false,
+});
 
 const CheckOutPage = () => {
   return <CheckOut />;

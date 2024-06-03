@@ -69,7 +69,7 @@ const Information = ({ profile }) => {
         <div>
           <img
             src={`${API}/${profile?.information?.avatar}`}
-            className="w-20 h-20 border-solid border-2 border-black rounded"
+            className="w-20 h-20 border-solid mt-2 border-2 border-black rounded"
             alt="Chưa có thông tin"
           />
         </div>

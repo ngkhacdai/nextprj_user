@@ -41,18 +41,13 @@ const RegisterForm = ({ setIsRegister }) => {
     console.log("Failed:", errorInfo);
   };
   return (
-    <div>
-      <p className="mb-5 text-2xl font-bold">Đăng ký</p>
+    <div className="flex flex-col mb-2  items-center justify-center ">
+      <p className="mb-2 text-2xl font-bold">Đăng ký</p>
       {contextHolder}
       <Form
         name="basic"
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 8,
-        }}
-        className="w-full text-center"
+        layout="vertical"
+        className="w-3/4 "
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
@@ -96,17 +91,9 @@ const RegisterForm = ({ setIsRegister }) => {
         >
           <Input.Password />
         </Form.Item>
-
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 8,
-          }}
-        >
-          <Button type="primary" htmlType="submit">
-            Đăng ký
-          </Button>
-        </Form.Item>
+        <Button type="primary" htmlType="submit">
+          Đăng ký
+        </Button>
       </Form>
     </div>
   );

@@ -9,18 +9,14 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { fetchUserInfo } from "@/lib/features/userSlice";
 import { signout } from "@/api/Access";
+import { API } from "@/helper/url";
 
 const { Search } = Input;
 
 const Header = (props) => {
   const { data } = props;
-  const dispatch = useDispatch();
   const profile = data;
   const router = useRouter();
-
-  useEffect(() => {
-    dispatch(fetchUserInfo());
-  }, [dispatch]);
 
   const items = [
     {
@@ -82,25 +78,42 @@ const Header = (props) => {
         <Col xs={9} sm={11} md={13} lg={12} xl={12}>
           <Search onSearch={onSearch} placeholder="Tìm kiếm sản phẩm" />
         </Col>
-        <Col className="xs:block hidden" span={1}>
+
+        <Col
+          className=" text-right mdant:flex hidden items-center justify-end"
+          span={6}
+        >
           <Link href="/cart">
             <ShoppingCartOutlined
               style={{ fontSize: "20px", color: "black" }}
-              className="cursor-pointer"
+              className="cursor-pointer pr-2"
             />
           </Link>
-        </Col>
-        <Col className=" text-right xs:flex hidden justify-end" span={5}>
           <Dropdown className="" menu={{ items }}>
-            <Space className="cursor-pointer break-words">
-              {profile?.information?.fullName || <div>Chưa có thông tin</div>}
+            <Space className="cursor-pointer flex items-center break-words">
+              <p>
+                <img
+                  alt=""
+                  className="rounded-full w-10 h-10"
+                  src={`${API}/${data.information.avatar}`}
+                />
+              </p>
+              <p>
+                {profile?.information?.fullName || <div>Chưa có thông tin</div>}
+              </p>
             </Space>
           </Dropdown>
         </Col>
-        <Col className="xs:hidden">
+        <Col className="mdant:hidden">
           <Dropdown menu={{ items: items2 }}>
             <Space className="cursor-pointer flex justify-end break-words">
-              {profile?.information?.fullName || <div>Chưa có thông tin</div>}
+              <p>
+                <img
+                  alt=""
+                  className="rounded-full w-10 h-10"
+                  src={`${API}/${data.information.avatar}`}
+                />
+              </p>
             </Space>
           </Dropdown>
         </Col>

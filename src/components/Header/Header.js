@@ -5,5 +5,9 @@ import { getProfile } from "@/api/User";
 export default async function HeaderComponent() {
   const response = await getProfile();
 
-  return <Header data={response} />;
+  return (
+    <div className="drop-shadow-lg border-inherit border-b-2">
+      <Header data={response} />
+    </div>
+  );
 }

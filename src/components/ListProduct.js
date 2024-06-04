@@ -1,15 +1,25 @@
 "use client";
 import { API } from "@/helper/url";
-import { Button, Col, Row } from "antd";
+import { Button, Col, Pagination, Row } from "antd";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { FaStar } from "react-icons/fa6";
 
 const ListProduct = ({ product }) => {
+  const [productItem, setProductItem] = useState(product.slice(0, 12));
+  const ref = useRef();
+  useEffect(() => {
+    setProductItem(product.slice(0, 12));
+  }, [product]);
+  const changePage = (page) => {
+    ref.current.scrollIntoView();
+    setProductItem(product.slice((page - 1) * 13, 13 * page - 1));
+  };
   return (
-    <div className="">
+    <div ref={ref} className="">
       <Row justify="start" className="container mx-auto">
-        {product && product.length > 0 ? (
-          product.map((item, index) => (
+        {productItem && productItem.length > 0 ? (
+          productItem.map((item, index) => (
             <Col
               xs={12}
               sm={12}
@@ -78,6 +88,14 @@ const ListProduct = ({ product }) => {
           </p>
         )}
       </Row>
+      <Pagination
+        className="p-2 text-center"
+        defaultCurrent={1}
+        total={product.length}
+        pageSize={12}
+        showSizeChanger={false}
+        onChange={changePage}
+      />
     </div>
   );
 };

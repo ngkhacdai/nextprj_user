@@ -6,7 +6,7 @@ const ChangePassword = () => {
   const [api, contextHolder] = notification.useNotification();
   const openNotificationWithIcon = (content, type = "error") => {
     api[type]({
-      message: "Notification Error",
+      message: "Thông báo",
       description: content,
     });
   };

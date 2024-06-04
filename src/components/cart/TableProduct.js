@@ -3,14 +3,21 @@ import { Button, Table } from "antd";
 import { useDispatch } from "react-redux";
 import { API } from "@/helper/url";
 
-import { onSelectProduct } from "@/lib/features/cartSlice";
-import { useEffect } from "react";
+import {
+  onRemoveItem,
+  onSelectProduct,
+  onUpdateQuantityDec,
+  onUpdateQuantityInc,
+} from "@/lib/features/cartSlice";
+import { useEffect, useState } from "react";
 import { deleteProductInCart, updateUserCartQuantity } from "@/api/Cart";
 const TableProduct = ({ cart, getData }) => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(onSelectProduct([]));
   }, []);
+  const [loadingUp, setLoadingUp] = useState(false);
   const columns = [
     {
       title: "Sản phẩm",
@@ -56,9 +63,16 @@ const TableProduct = ({ cart, getData }) => {
       render: (record) => {
         return (
           <div>
-            <Button onClick={() => onDecrement(record)}>-</Button>
+            <Button
+              disabled={loadingUp || record.quantity <= 1}
+              onClick={() => onDecrement(record)}
+            >
+              -
+            </Button>
             <span className="mx-2">{record.quantity}</span>
-            <Button onClick={() => onIncrement(record)}>+</Button>
+            <Button disabled={loadingUp} onClick={() => onIncrement(record)}>
+              +
+            </Button>
           </div>
         );
       },
@@ -109,7 +123,11 @@ const TableProduct = ({ cart, getData }) => {
         ],
       },
     ];
-    await updateUserCartQuantity(shop_order_ids);
+    setLoadingUp(true);
+    const res = await updateUserCartQuantity(shop_order_ids);
+    if (res) setLoadingUp(false);
+    else setLoadingUp(false);
+    dispatch(onUpdateQuantityDec({ itemId: record.itemId }));
   };
   const onIncrement = async (record) => {
     const shop_order_ids = [
@@ -127,6 +145,7 @@ const TableProduct = ({ cart, getData }) => {
       },
     ];
     await updateUserCartQuantity(shop_order_ids);
+    dispatch(onUpdateQuantityInc({ itemId: record.itemId }));
   };
   const onDeleteProduct = async (record) => {
     const form = {
@@ -135,6 +154,7 @@ const TableProduct = ({ cart, getData }) => {
       color: record.color,
     };
     await deleteProductInCart(form);
+    dispatch(onRemoveItem({ itemId: record.itemId }));
   };
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -152,7 +172,7 @@ const TableProduct = ({ cart, getData }) => {
         }}
         columns={columns}
         rowKey={"itemId"}
-        dataSource={cart?.cart_products}
+        dataSource={cart}
         pagination={false}
         className="w-full"
         scroll={{ x: 900 }}

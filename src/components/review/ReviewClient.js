@@ -16,7 +16,7 @@ const ReviewClient = ({ productID }) => {
   };
   const openNotificationWithIcon = (content) => {
     api["success"]({
-      message: "Thông báo",
+      message: "Thông báo thành công",
       description: content,
     });
   };

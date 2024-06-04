@@ -9,11 +9,13 @@ export const addProductToCart = async (product) => {
     product,
   };
   const response = await POST("/cartv2", form);
+
   return response;
 };
 export const getCart = async () => {
   const response = await GET("/cartv2");
-  return response.message.cart;
+  revalidatePath("/cart");
+  return response.message.cart.cart_products;
 };
 
 export const deleteProductInCart = async (form) => {

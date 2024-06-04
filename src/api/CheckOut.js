@@ -1,4 +1,5 @@
 "use server";
+import { revalidatePath } from "next/cache";
 import { POST } from "./route";
 
 export const PayProduct = async (orderData) => {

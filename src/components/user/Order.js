@@ -1,5 +1,6 @@
 import { getAllOrderByStatus } from "@/api/Order";
-import ListOrder from "./ListOrder";
+import dynamic from "next/dynamic";
+const ListOrder = dynamic(() => import("./ListOrder"), { ssr: false });
 
 const Order = async ({ status }) => {
   const orderStatus = status || "pending";

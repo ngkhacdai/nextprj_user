@@ -115,13 +115,29 @@ const ModalAddress = ({ getData }) => {
             span: 24,
           }}
         >
-          <Form.Item name="addressName" label="Tên địa chỉ">
+          <Form.Item
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+            name="addressName"
+            label="Tên địa chỉ"
+          >
             <Input
               value={nameAddress}
               onChange={(e) => setNameAddress(e.target.value)}
             />
           </Form.Item>
-          <Form.Item name="selectAddress" label="Địa chỉ">
+          <Form.Item
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+            name="selectAddress"
+            label="Địa chỉ"
+          >
             <Select
               className="form-select form-select-sm mb-3"
               value={selectedCity}
@@ -167,7 +183,15 @@ const ModalAddress = ({ getData }) => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item name="address" label={"Địa chỉ cụ thể"}>
+          <Form.Item
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+            name="address"
+            label={"Địa chỉ cụ thể"}
+          >
             <Input
               value={address}
               onChange={(e) => setAddress(e.target.value)}

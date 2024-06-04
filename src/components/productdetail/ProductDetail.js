@@ -5,9 +5,12 @@ import ShopInfor from "./ShopInfor";
 import Descaption from "./Descaption";
 import { getProduct } from "@/api/Product";
 import Review from "./Review";
+import { getShop } from "@/api/Shop";
+import ListProduct from "../ListProduct";
 
 const ProductDetail = async ({ productID }) => {
   const productDetail = await getProduct(productID);
+  const shopData = await getShop(productDetail.shop_id);
   return (
     <div>
       <div className=" md:w-5/6 mx-auto">
@@ -27,6 +30,10 @@ const ProductDetail = async ({ productID }) => {
         </div>
         <div>
           <Descaption ProductDetail={productDetail} />
+        </div>
+        <div className="mt-2">
+          <p className="">Sản phẩm khác của shop</p>
+          <ListProduct product={shopData.products} />
         </div>
       </div>
     </div>

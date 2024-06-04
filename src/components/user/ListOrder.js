@@ -97,8 +97,12 @@ const ListOrder = ({ orderData }) => {
                   </div>
                 </div>
                 <div className="text-red-500">
-                  ₫
-                  {item.order_checkout.totalPrice + item.order_checkout.feeShip}
+                  {(
+                    item.order_checkout.totalPrice + item.order_checkout.feeShip
+                  ).toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
                 </div>
               </div>
               <div className="flex justify-end mb-2">

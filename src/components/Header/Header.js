@@ -6,7 +6,7 @@ export default async function HeaderComponent() {
   const response = await getProfile();
 
   return (
-    <div className="drop-shadow-lg border-inherit border-b-2">
+    <div className="shadow-lg border-inherit border-b-2">
       <Header data={response} />
     </div>
   );

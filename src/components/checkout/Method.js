@@ -74,7 +74,8 @@ const Method = ({ address }) => {
     dispatch(onSelectIndex(0));
     dispatch(onSelectProduct([]));
     await PayProduct(orderData);
-    router.push("/user/order");
+    router.push("/user/order", { shallow: false });
+    // window.location.href = "/user/order";
     setIsModalOpen(false);
   };
   const handleCancel = () => {

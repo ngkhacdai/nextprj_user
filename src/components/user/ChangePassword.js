@@ -90,17 +90,9 @@ const ChangePassword = () => {
           >
             <Input.Password />
           </Form.Item>
-
-          <Form.Item
-            wrapperCol={{
-              offset: 8,
-              span: 8,
-            }}
-          >
-            <Button type="primary" htmlType="submit">
-              Đổi mật khẩu
-            </Button>
-          </Form.Item>
+          <Button type="primary" htmlType="submit">
+            Đổi mật khẩu
+          </Button>
         </Form>
       </div>
     </div>

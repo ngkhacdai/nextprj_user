@@ -15,9 +15,9 @@ const ModalAddress = ({ getData }) => {
   const [nameAddress, setNameAddress] = useState("");
   const [address, setAddress] = useState("");
   const [api, contextHolder] = notification.useNotification();
-  const openNotificationWithIcon = (content) => {
-    api["error"]({
-      message: "Notification Error",
+  const openNotificationWithIcon = (content, type = { error }) => {
+    api[type]({
+      message: "Thông báo",
       description: content,
     });
   };
@@ -54,6 +54,7 @@ const ModalAddress = ({ getData }) => {
         address: address + " " + wardName + " " + districtName + " " + cityName,
       };
       await addAddress(form);
+      openNotificationWithIcon("Thêm địa chỉ thành công", "success");
       setIsModalOpen(false);
       onClearForm();
     }

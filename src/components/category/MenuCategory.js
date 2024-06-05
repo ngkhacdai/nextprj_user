@@ -17,7 +17,7 @@ const MenuCategory = ({ category }) => {
   };
 
   return (
-    <div>
+    <div className="bg-white p-2 rounded-t-md">
       <p className="text-xl">Tất cả danh mục</p>
       <List
         itemLayout="horizontal"

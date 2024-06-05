@@ -12,7 +12,7 @@ const Otp = ({ isRegister, setIsRegister }) => {
   const [count, setCount] = useState(60);
   const openNotificationWithIcon = (content) => {
     api["error"]({
-      message: "Notification Error",
+      message: "Thông báo lỗi",
       description: content,
     });
   };

@@ -1,10 +1,18 @@
 "use client";
 import { cancelByUser, changeStatusByUser } from "@/api/Order";
 import { API } from "@/helper/url";
-import { Button, Col, Dropdown, Menu, Row } from "antd";
+import {
+  Button,
+  Col,
+  Dropdown,
+  Menu,
+  Pagination,
+  Row,
+  notification,
+} from "antd";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CiCircleQuestion, CiShop } from "react-icons/ci";
 import { IoMdChatbubbles } from "react-icons/io";
 import { MdOutlineLocalShipping } from "react-icons/md";
@@ -12,6 +20,34 @@ import { MdOutlineLocalShipping } from "react-icons/md";
 const ListOrder = ({ orderData }) => {
   const getPathName = usePathname();
   const router = useRouter();
+  const [api, contextHolder] = notification.useNotification();
+  const [orderItem, setOrderItem] = useState(
+    orderData
+      .sort((a, b) => {
+        return new Date(b.crateDate) - new Date(a.crateDate);
+      })
+      .slice(0, 10)
+  );
+  const ref = useRef();
+  useEffect(() => {
+    setOrderItem(
+      orderData
+        .sort((a, b) => {
+          return new Date(b.crateDate) - new Date(a.crateDate);
+        })
+        .slice(0, 10)
+    );
+  }, [orderData]);
+  const changePage = (page) => {
+    ref.current.scrollIntoView();
+    setOrderItem(
+      orderData
+        .sort((a, b) => {
+          return new Date(b.crateDate) - new Date(a.crateDate);
+        })
+        .slice((page - 1) * 10, 10 * page - 1)
+    );
+  };
   const convertTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const year = date.getFullYear();
@@ -30,19 +66,26 @@ const ListOrder = ({ orderData }) => {
     await changeStatusByUser(form);
     router.push(`/review/${productID}`);
   };
+  const openNotificationWithIcon = (content) => {
+    api["success"]({
+      message: "Thông báo xóa thành công",
+      description: content,
+    });
+  };
   const cancelOrder = async (id) => {
     await cancelByUser(id, getPathName);
+    openNotificationWithIcon("Đã hủy đơn hàng thành công");
   };
   return (
-    <div>
-      {orderData
-        .sort((a, b) => {
-          return new Date(b.crateDate) - new Date(a.crateDate);
-        })
-        .map((item, index) => {
+    <div ref={ref}>
+      {contextHolder}
+      {orderItem.length <= 0 ? (
+        <p className="text-center">Chưa có đơn hàng nào</p>
+      ) : (
+        orderItem.map((item, index) => {
           return (
             <div key={`order-${index}`}>
-              <Row justify="space-between" className="mb-2 mt-2">
+              <div className="flex-col flex justify-between xs:flex-row mb-2 mt-2">
                 <Col className="flex items-center">
                   <CiShop className="mr-2" />
                   <p className="mr-2  font-bold">{item.name_shop}</p>
@@ -55,7 +98,7 @@ const ListOrder = ({ orderData }) => {
                     </Button>
                   </Link>
                 </Col>
-                <Col className="flex items-center">
+                <Col className="flex justify-end items-center">
                   <MdOutlineLocalShipping />
                   <span className="mx-2">
                     {item.status === "pending" ? (
@@ -81,8 +124,8 @@ const ListOrder = ({ orderData }) => {
                     <CiCircleQuestion />
                   </Dropdown>
                 </Col>
-              </Row>
-              <div className="flex justify-between mb-2">
+              </div>
+              <div className="flex justify-between mb-2 flex-col xs:flex-row">
                 <div className="flex">
                   <img
                     alt=""
@@ -96,7 +139,7 @@ const ListOrder = ({ orderData }) => {
                     <p> kích cỡ: {item.product_attributes.size}</p>
                   </div>
                 </div>
-                <div className="text-red-500">
+                <div className="text-red-500 text-right">
                   {(
                     item.order_checkout.totalPrice + item.order_checkout.feeShip
                   ).toLocaleString("en-US", {
@@ -134,7 +177,18 @@ const ListOrder = ({ orderData }) => {
               <hr />
             </div>
           );
-        })}
+        })
+      )}
+      {orderItem.length > 0 && (
+        <Pagination
+          className="p-2 text-center"
+          defaultCurrent={1}
+          total={orderData.length}
+          pageSize={10}
+          showSizeChanger={false}
+          onChange={changePage}
+        />
+      )}
     </div>
   );
 };

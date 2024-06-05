@@ -30,7 +30,7 @@ const FooterCart = () => {
   };
   const openNotificationWithIcon = (content) => {
     api["error"]({
-      message: "Notification Error",
+      message: "Thông báo lỗi",
       description: content,
     });
   };

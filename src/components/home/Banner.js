@@ -19,14 +19,14 @@ import "swiper/css/scrollbar";
 import "swiper/css/autoplay";
 const Banner = () => {
   return (
-    <div className="mb-2">
+    <div className="mb-2 bg-white">
       <Swiper
         spaceBetween={50}
         slidesPerView={1}
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-        autoplay={{ delay: 3000 }}
+        autoplay={{ delay: 5000 }}
         pagination={{ clickable: true }}
-        className="w-full h-80"
+        className="w-full h-80 "
       >
         <SwiperSlide>
           <img alt="" className="w-full h-80" src={bannerImage.src} />

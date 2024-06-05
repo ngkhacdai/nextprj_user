@@ -11,6 +11,8 @@ import {
 } from "@/lib/features/cartSlice";
 import { useEffect, useState } from "react";
 import { deleteProductInCart, updateUserCartQuantity } from "@/api/Cart";
+import { debounce } from "lodash";
+
 const TableProduct = ({ cart, getData }) => {
   const dispatch = useDispatch();
 
@@ -123,12 +125,12 @@ const TableProduct = ({ cart, getData }) => {
         ],
       },
     ];
-    setLoadingUp(true);
-    const res = await updateUserCartQuantity(shop_order_ids);
-    if (res) setLoadingUp(false);
-    else setLoadingUp(false);
+    debouncedUpdateQuantity(shop_order_ids);
     dispatch(onUpdateQuantityDec({ itemId: record.itemId }));
   };
+  const debouncedUpdateQuantity = debounce((shop_order_ids) => {
+    updateUserCartQuantity(shop_order_ids);
+  }, 1000);
   const onIncrement = async (record) => {
     const shop_order_ids = [
       {
@@ -144,7 +146,7 @@ const TableProduct = ({ cart, getData }) => {
         ],
       },
     ];
-    await updateUserCartQuantity(shop_order_ids);
+    debouncedUpdateQuantity(shop_order_ids);
     dispatch(onUpdateQuantityInc({ itemId: record.itemId }));
   };
   const onDeleteProduct = async (record) => {

@@ -62,7 +62,7 @@ const Header = (props) => {
   };
 
   return (
-    <div className="md:w-5/6 mx-auto">
+    <div className="md:w-5/6 container mx-auto">
       <Row
         justify="space-between"
         gutter={[0, 0]}
@@ -75,13 +75,13 @@ const Header = (props) => {
             <img src={logo.src} className="w-28" alt="TrustyBuy Logo" />
           </Link>
         </Col>
-        <Col xs={9} sm={11} md={13} lg={12} xl={12}>
+        <Col xs={13} sm={13} md={11} lg={11} xl={11}>
           <Search onSearch={onSearch} placeholder="Tìm kiếm sản phẩm" />
         </Col>
 
         <Col
           className=" text-right mdant:flex hidden items-center justify-end"
-          span={6}
+          span={8}
         >
           <Link href="/cart">
             <ShoppingCartOutlined
@@ -94,7 +94,7 @@ const Header = (props) => {
               <p>
                 <img
                   alt=""
-                  className="rounded-full w-10 h-10"
+                  className="rounded-full mx-2 w-10 h-10"
                   src={`${API}/${data.information.avatar}`}
                 />
               </p>
@@ -106,7 +106,7 @@ const Header = (props) => {
         </Col>
         <Col className="mdant:hidden">
           <Dropdown menu={{ items: items2 }}>
-            <Space className="cursor-pointer flex justify-end break-words">
+            <Space className="cursor-pointer mx-2 flex justify-end break-words">
               <p>
                 <img
                   alt=""

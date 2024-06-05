@@ -9,7 +9,7 @@ export const addProductToCart = async (product) => {
     product,
   };
   const response = await POST("/cartv2", form);
-
+  revalidatePath("/cart");
   return response;
 };
 export const getCart = async () => {

@@ -10,9 +10,11 @@ import {
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
 const SideBar = ({ children }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true); // Set initial state to true to collapse the menu by default
   const pathName = usePathname();
+
   function getItem(label, key, icon, children) {
     return {
       key,
@@ -51,24 +53,24 @@ const SideBar = ({ children }) => {
         collapsedWidth={0}
         trigger={null}
         collapsed={collapsed}
-        className="sticky top-0 left-0"
-        // className="bg-white"
+        className="sticky min-h-120 hidden mdant:block top-28 left-0"
         onCollapse={(value) => setCollapsed(value)}
       >
         <Menu
           theme="dark"
-          // className="bg-white"
           defaultSelectedKeys={pathName}
           mode="inline"
           items={items}
         />
       </Sider>
-      <Layout>
+      <Layout className="max-h-120 w-full bg-white">
         <Header
           style={{
+            zIndex: 10,
             padding: 0,
+            height: 30,
+            lineHeight: 2,
             background: colorBgContainer,
-            height: 35,
           }}
         >
           <Button
@@ -77,6 +79,19 @@ const SideBar = ({ children }) => {
             onClick={() => setCollapsed(!collapsed)}
           />
         </Header>
+
+        <Menu
+          // theme="dark"
+          defaultSelectedKeys={pathName}
+          onClick={() => {
+            setCollapsed(!collapsed);
+          }}
+          mode="inline"
+          items={items}
+          className={`block fixed z-10 top-32  transition-all duration-300 mdant:hidden ${
+            collapsed ? "hidden opacity-0" : "opacity-100"
+          }`} // Hide the menu when collapsed
+        />
         <Content
           className={`overflow-x-auto ${
             collapsed ? "w-full" : "w-full md:w-auto"
@@ -98,111 +113,3 @@ const SideBar = ({ children }) => {
 };
 
 export default SideBar;
-// "use client";
-// import { Layout, Menu } from "antd";
-// import {
-//   FileTextOutlined,
-//   UserOutlined,
-//   MenuOutlined,
-// } from "@ant-design/icons";
-// import { useState } from "react";
-// import Link from "next/link";
-
-// const { Header, Content, Sider } = Layout;
-
-// const SideBar = ({ children }) => {
-//   const [collapsed, setCollapsed] = useState(false);
-//   const [drawerVisible, setDrawerVisible] = useState(false);
-
-//   function getItem(label, key, icon, children) {
-//     return {
-//       key,
-//       icon,
-//       children,
-//       label,
-//     };
-//   }
-
-//   const items = [
-//     getItem("Thông tin cá nhân", "sub1", <UserOutlined />, [
-//       getItem(<Link href="/user">Hồ sơ</Link>, "/user"),
-//       getItem(<Link href="/user/address">Địa chỉ</Link>, "/user/address"),
-//       getItem(
-//         <Link href="/user/changepassword">Đổi mật khẩu</Link>,
-//         "/user/changepassword"
-//       ),
-//     ]),
-//     getItem(
-//       <Link href="/user/order">Đơn mua</Link>,
-//       "/user/order",
-//       <FileTextOutlined />
-//     ),
-//   ];
-
-//   const handleToggleDrawer = () => {
-//     setDrawerVisible(!drawerVisible);
-//   };
-
-//   return (
-//     <Layout className="min-h-screen">
-//       <Sider
-//         breakpoint="md"
-//         collapsedWidth="0"
-//         collapsible
-//         collapsed={collapsed}
-//         onCollapse={(value) => setCollapsed(value)}
-//         className="hidden md:block"
-//       >
-//         <Menu theme="dark" mode="inline" items={items} />
-//       </Sider>
-
-//       <Layout>
-//         <Header className="bg-white shadow-md flex justify-between items-center px-4 md:hidden">
-//           <button
-//             type="button"
-//             onClick={handleToggleDrawer}
-//             className="text-xl "
-//           >
-//             <MenuOutlined />
-//           </button>
-//         </Header>
-
-//         {drawerVisible && (
-//           <div className="fixed inset-0 z-50 flex flex-col bg-gray-800 text-white md:hidden">
-//             <div className="flex justify-between items-center p-4">
-//               <span className="text-lg">Menu</span>
-//               <button
-//                 type="button"
-//                 onClick={handleToggleDrawer}
-//                 className="text-xl"
-//               >
-//                 <MenuOutlined />
-//               </button>
-//             </div>
-//             <Menu
-//               theme="dark"
-//               mode="inline"
-//               items={items}
-//               onClick={handleToggleDrawer}
-//             />
-//           </div>
-//         )}
-
-//         <Content
-//           className={`overflow-x-auto ${
-//             collapsed ? "w-full" : "w-full md:w-auto"
-//           }`}
-//         >
-//           <div
-//             className="p-2"
-//             style={{ background: "white", borderRadius: "8px" }}
-//           >
-//             {children}
-//           </div>
-//         </Content>
-//       </Layout>
-//     </Layout>
-//   );
-// };
-
-// export default SideBar;

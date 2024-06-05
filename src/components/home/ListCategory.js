@@ -23,7 +23,7 @@ const ListCategory = ({ category }) => {
               return (
                 <Col
                   onClick={() => onSelectCategory(item)}
-                  className="text-center justify-center flex-col flex cursor-pointer border border-inherit hover:shadow-lg"
+                  className="text-center justify-center flex-col flex cursor-pointer border border-inherit hover:scale-105 hover:z-10 hover:shadow-3xl"
                   xs={6}
                   sm={4}
                   md={4}

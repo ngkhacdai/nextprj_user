@@ -7,6 +7,7 @@ import { getProduct } from "@/api/Product";
 import Review from "./Review";
 import { getShop } from "@/api/Shop";
 import ListProduct from "../ListProduct";
+import ListProductShop from "./ListProductShop";
 
 const ProductDetail = async ({ productID }) => {
   const productDetail = await getProduct(productID);
@@ -33,7 +34,7 @@ const ProductDetail = async ({ productID }) => {
         </div>
         <div className="mt-2">
           <p className="">Sản phẩm khác của shop</p>
-          <ListProduct product={shopData.products} />
+          <ListProductShop product={shopData.products.slice(0, 6)} />
         </div>
       </div>
     </div>

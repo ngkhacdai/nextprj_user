@@ -64,17 +64,17 @@ const Fillter = ({ productSearch = [], sortProduct }) => {
     <div>
       <Button onClick={showModal} className="flex mt-2 items-center">
         <FaFilter className="mr-2" />
-        <p>Bộ lọc</p>
+        <p>Sắp xếp</p>
       </Button>
       <Modal
-        title="Lọc sản phẩm"
+        title="Sắp xếp sản phẩm"
         okText={"Lưu"}
         cancelText="Hủy"
         onOk={handleOk}
         onCancel={handleCancel}
         open={isShowModal}
       >
-        <p>Sắp xếp theo:</p>
+        {/* <p>Sắp xếp theo:</p> */}
         <Radio.Group onChange={onChange} value={value}>
           <Space direction="vertical">
             <Radio value={1}>Tất cả</Radio>

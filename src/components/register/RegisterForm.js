@@ -27,7 +27,8 @@ const RegisterForm = ({ setIsRegister }) => {
       .then(() => {
         setIsRegister(values);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         return openNotificationWithIcon("Email đã tồn tại!");
       });
   };

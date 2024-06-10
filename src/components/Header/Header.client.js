@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Col, Row, Input, Space, Dropdown } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import logo from "@/assets/trustybuy.png";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-import { fetchUserInfo } from "@/lib/features/userSlice";
 import { signout } from "@/api/Access";
 import { API } from "@/helper/url";
 
@@ -17,7 +15,7 @@ const Header = (props) => {
   const { data } = props;
   const profile = data;
   const router = useRouter();
-
+  const [search, setSearch] = useState("");
   const items = [
     {
       label: <Link href="/user">Tài khoản của tôi</Link>,
@@ -53,11 +51,12 @@ const Header = (props) => {
   const logOut = async () => {
     await signout();
   };
-  const onSearch = (value) => {
-    if (value === "") {
+  const onSearch = () => {
+    setSearch("");
+    if (search === "") {
       return router.push("/");
     } else {
-      router.push(`/search?keyword=${value}`);
+      router.push(`/search?keyword=${search}`);
     }
   };
 
@@ -70,18 +69,23 @@ const Header = (props) => {
           alignItems: "center",
         }}
       >
-        <Col xs={6} sm={5}>
+        <Col xs={4} sm={4}>
           <Link href="/">
             <img src={logo.src} className="w-28" alt="TrustyBuy Logo" />
           </Link>
         </Col>
         <Col xs={13} sm={13} md={11} lg={11} xl={11}>
-          <Search onSearch={onSearch} placeholder="Tìm kiếm sản phẩm" />
+          <Search
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onSearch={onSearch}
+            placeholder="Tìm kiếm sản phẩm"
+          />
         </Col>
 
         <Col
           className=" text-right mdant:flex hidden items-center justify-end"
-          span={8}
+          span={7}
         >
           <Link href="/cart">
             <ShoppingCartOutlined
@@ -98,7 +102,7 @@ const Header = (props) => {
                   src={`${API}/${data.information.avatar}`}
                 />
               </p>
-              <p>
+              <p className="line-clamp-1 max-w-28">
                 {profile?.information?.fullName || <div>Chưa có thông tin</div>}
               </p>
             </Space>

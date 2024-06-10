@@ -26,16 +26,16 @@ const Banner = () => {
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
         autoplay={{ delay: 5000 }}
         pagination={{ clickable: true }}
-        className="w-full h-80 "
+        className="w-full h-96 "
       >
         <SwiperSlide>
-          <img alt="" className="w-full h-80" src={bannerImage.src} />
+          <img alt="" className="w-full h-96" src={bannerImage.src} />
         </SwiperSlide>
         <SwiperSlide>
-          <img alt="" className="w-full h-80" src={bannerImage1.src} />
+          <img alt="" className="w-full h-96" src={bannerImage1.src} />
         </SwiperSlide>
         <SwiperSlide>
-          <img alt="" className="w-full h-80" src={bannerImage2.src} />
+          <img alt="" className="w-full h-96" src={bannerImage2.src} />
         </SwiperSlide>
       </Swiper>
     </div>

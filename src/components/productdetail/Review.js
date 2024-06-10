@@ -1,7 +1,9 @@
 "use client";
 import { Col, Rate, Row } from "antd";
+import dynamic from "next/dynamic";
 import React from "react";
 import { FaStar } from "react-icons/fa6";
+const ListReview = dynamic(() => import("./ListReview"), { ssr: false });
 
 // Function to calculate the rating distribution
 const calculateRatingDistribution = (reviews) => {
@@ -57,11 +59,11 @@ const Review = ({ productDetail }) => {
   return (
     <div className="bg-white mt-2 p-2">
       <p>Người dùng đánh giá</p>
-      <Row className="items-center">
-        <Col span={8}>
+      <Row gutter={[10, 10]}>
+        <Col xs={24} sm={6}>
           <div className="text-center">
             <p className="font-bold text-xl">
-              {productDetail?.product_ratingAverage}
+              {productDetail?.product_ratingAverage} trên 5
             </p>
             <Rate
               allowHalf
@@ -76,8 +78,11 @@ const Review = ({ productDetail }) => {
             </p>
           </div>
         </Col>
-        <Col span={16}>
+        <Col xs={24} sm={18}>
           <RatingBreakdown distribution={ratingDistribution} />
+          <div className="py-2">
+            <ListReview reviews={productDetail.reviews} />
+          </div>
         </Col>
       </Row>
     </div>

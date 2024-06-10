@@ -10,7 +10,11 @@ const ReviewClient = ({ productID }) => {
     if (values.rating === 0) {
       return openNotificationWithIcon("Hãy chọn số sao");
     }
-    await reviewProduct(productID, values);
+    const form = {
+      rating: values.rating,
+      comment: values.comment ? values.comment : "",
+    };
+    await reviewProduct(productID, form);
     openNotificationWithIcon("Đánh giá sản phẩm thành công");
     router.push("/");
   };

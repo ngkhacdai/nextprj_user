@@ -13,17 +13,19 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function HomeLayout({ children }) {
   return (
-    <div className={`${inter.className} flex flex-col min-h-screen`}>
-      <Affix offsetTop={0}>
-        <div className="bg-white">
-          <HeaderComponent />
+    <Suspense fallback={<Loading />}>
+      <div className={`${inter.className} flex flex-col min-h-screen`}>
+        <Affix offsetTop={0}>
+          <div className="bg-white">
+            <HeaderComponent />
+          </div>
+        </Affix>
+        <div className="flex-grow">
+          {children}
+          <Chat />
         </div>
-      </Affix>
-      <div className="flex-grow">
-        {children}
-        <Chat />
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </Suspense>
   );
 }

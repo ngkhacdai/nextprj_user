@@ -53,13 +53,14 @@ const SideBar = ({ children }) => {
         collapsedWidth={0}
         trigger={null}
         collapsed={collapsed}
-        className="sticky min-h-120 hidden mdant:block top-28 left-0"
+        className="sticky bg-white min-h-120 hidden mdant:block top-28 left-0"
         onCollapse={(value) => setCollapsed(value)}
       >
         <Menu
-          theme="dark"
+          theme="light"
           defaultSelectedKeys={pathName}
           mode="inline"
+          className="bg-white"
           items={items}
         />
       </Sider>
@@ -88,7 +89,7 @@ const SideBar = ({ children }) => {
           }}
           mode="inline"
           items={items}
-          className={`block fixed z-10 top-32  transition-all duration-300 mdant:hidden ${
+          className={`block sticky z-10 top-36  transition-all duration-300 mdant:hidden ${
             collapsed ? "hidden opacity-0" : "opacity-100"
           }`} // Hide the menu when collapsed
         />

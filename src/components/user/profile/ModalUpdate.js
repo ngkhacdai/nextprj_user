@@ -2,7 +2,7 @@
 import { updateProfile } from "@/api/User";
 import { fetchUserInfo } from "@/lib/features/userSlice";
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Modal, Radio, Upload } from "antd";
+import { Button, Form, Input, Modal, Radio, Upload, notification } from "antd";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -13,20 +13,30 @@ const ModalUpdate = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("Nam");
   const dispatch = useDispatch();
+  const [api, contextHolder] = notification.useNotification();
   const showModal = () => {
     setIsModalOpen(true);
   };
+  const openNotificationWithIcon = (content, type = "error") => {
+    api[type]({
+      message: "Thông báo",
+      description: content,
+    });
+  };
   const handleOk = async () => {
-    if (file && fullname && phoneNumber && gender) {
+    if (file.length !== 0 && fullname && phoneNumber && gender) {
       const formData = new FormData();
       formData.append("avatar", file.originFileObj);
       formData.append("fullName", fullname);
       formData.append("gender", gender);
       formData.append("phoneNumber", phoneNumber);
       await updateProfile(formData);
+      openNotificationWithIcon("Cập nhật thành công", "success");
       dispatch(fetchUserInfo());
       setIsModalOpen(false);
       clearForm();
+    } else {
+      openNotificationWithIcon("Hãy nhập đủ các trường");
     }
   };
   const clearForm = () => {
@@ -40,6 +50,7 @@ const ModalUpdate = () => {
   };
   return (
     <div>
+      {contextHolder}
       <Button type="primary" onClick={showModal}>
         Update thông tin cá nhân
       </Button>
@@ -71,7 +82,6 @@ const ModalUpdate = () => {
                 message: "Hãy chọn ảnh",
               },
             ]}
-            valuePropName="fileList"
           >
             <Upload
               beforeUpload={() => false}

@@ -36,7 +36,7 @@ const ChangePassword = () => {
       {contextHolder}
       <p className="text-xl font-bold mb-2">Đổi mật khẩu</p>
       <hr />
-      <div className="mt-2">
+      <div className="mt-2 flex justify-center items-center text-center">
         <Form
           name="basic"
           labelCol={{
@@ -48,7 +48,7 @@ const ChangePassword = () => {
           className="w-full"
           onFinish={onFinish}
           // onFinishFailed={onFinishFailed}
-          autoComplete="off"
+          // autoComplete="off"
         >
           <Form.Item
             label="Mật khẩu cũ"

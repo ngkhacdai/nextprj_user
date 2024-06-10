@@ -15,7 +15,7 @@ const ModalAddress = ({ getData }) => {
   const [nameAddress, setNameAddress] = useState("");
   const [address, setAddress] = useState("");
   const [api, contextHolder] = notification.useNotification();
-  const openNotificationWithIcon = (content, type = { error }) => {
+  const openNotificationWithIcon = (content, type = "error") => {
     api[type]({
       message: "Thông báo",
       description: content,

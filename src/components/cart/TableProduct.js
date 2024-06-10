@@ -9,17 +9,96 @@ import {
   onUpdateQuantityDec,
   onUpdateQuantityInc,
 } from "@/lib/features/cartSlice";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { deleteProductInCart, updateUserCartQuantity } from "@/api/Cart";
 import { debounce } from "lodash";
 
-const TableProduct = ({ cart, getData }) => {
+const TableProduct = ({ cart }) => {
   const dispatch = useDispatch();
+  const [data, setData] = useState(cart);
+
+  useEffect(() => {
+    setData(cart);
+  }, [cart]);
 
   useEffect(() => {
     dispatch(onSelectProduct([]));
   }, []);
+
   const [loadingUp, setLoadingUp] = useState(false);
+  const [quantityChanges, setQuantityChanges] = useState({});
+
+  const debouncedUpdateQuantity = useCallback(
+    debounce((shop_order_ids) => {
+      updateUserCartQuantity(shop_order_ids);
+    }, 1000),
+    []
+  );
+
+  const updateQuantity = (record, change) => {
+    const itemId = record.itemId;
+    const newQuantity =
+      (quantityChanges[itemId]?.quantity || record.quantity) + change;
+
+    if (newQuantity < 1) return;
+
+    const updatedQuantityChanges = {
+      ...quantityChanges,
+      [itemId]: {
+        ...record,
+        quantity: newQuantity,
+      },
+    };
+    setQuantityChanges(updatedQuantityChanges);
+
+    const shop_order_ids = [
+      {
+        shopId: record.shopId,
+        item_product: [
+          {
+            productId: record.productId,
+            quantity: newQuantity,
+            old_quantity: record.quantity,
+            size: record.size,
+            color: record.color,
+          },
+        ],
+      },
+    ];
+
+    debouncedUpdateQuantity(shop_order_ids);
+
+    if (change > 0) {
+      dispatch(onUpdateQuantityInc({ itemId: record.itemId }));
+    } else {
+      dispatch(onUpdateQuantityDec({ itemId: record.itemId }));
+    }
+  };
+
+  const onDecrement = (record) => {
+    updateQuantity(record, -1);
+  };
+
+  const onIncrement = (record) => {
+    updateQuantity(record, 1);
+  };
+
+  const onDeleteProduct = async (record) => {
+    const form = {
+      productId: record.productId,
+      size: record.size,
+      color: record.color,
+    };
+    await deleteProductInCart(form);
+    dispatch(onRemoveItem({ itemId: record.itemId }));
+  };
+
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      dispatch(onSelectProduct(selectedRows));
+    },
+  };
+
   const columns = [
     {
       title: "Sản phẩm",
@@ -63,15 +142,18 @@ const TableProduct = ({ cart, getData }) => {
     {
       title: "Số lượng",
       render: (record) => {
+        const itemId = record.itemId;
+        const quantity = quantityChanges[itemId]?.quantity || record.quantity;
+
         return (
           <div>
             <Button
-              disabled={loadingUp || record.quantity <= 1}
+              disabled={loadingUp || quantity <= 1}
               onClick={() => onDecrement(record)}
             >
               -
             </Button>
-            <span className="mx-2">{record.quantity}</span>
+            <span className="mx-2">{quantity}</span>
             <Button disabled={loadingUp} onClick={() => onIncrement(record)}>
               +
             </Button>
@@ -82,7 +164,9 @@ const TableProduct = ({ cart, getData }) => {
     {
       title: "Số tiền",
       render: (record) => {
-        let total = record.price * record.quantity;
+        const itemId = record.itemId;
+        const quantity = quantityChanges[itemId]?.quantity || record.quantity;
+        let total = record.price * quantity;
         return (
           <p>
             {total.toLocaleString("en-US", {
@@ -109,60 +193,6 @@ const TableProduct = ({ cart, getData }) => {
       },
     },
   ];
-  const onDecrement = async (record) => {
-    if (record.quantity === 1) return;
-    const shop_order_ids = [
-      {
-        shopId: record.shopId,
-        item_product: [
-          {
-            productId: record.productId,
-            quantity: record.quantity - 1,
-            old_quantity: record.quantity,
-            size: record.size,
-            color: record.color,
-          },
-        ],
-      },
-    ];
-    debouncedUpdateQuantity(shop_order_ids);
-    dispatch(onUpdateQuantityDec({ itemId: record.itemId }));
-  };
-  const debouncedUpdateQuantity = debounce((shop_order_ids) => {
-    updateUserCartQuantity(shop_order_ids);
-  }, 1000);
-  const onIncrement = async (record) => {
-    const shop_order_ids = [
-      {
-        shopId: record.shopId,
-        item_product: [
-          {
-            productId: record.productId,
-            quantity: record.quantity + 1,
-            old_quantity: record.quantity,
-            size: record.size,
-            color: record.color,
-          },
-        ],
-      },
-    ];
-    debouncedUpdateQuantity(shop_order_ids);
-    dispatch(onUpdateQuantityInc({ itemId: record.itemId }));
-  };
-  const onDeleteProduct = async (record) => {
-    const form = {
-      productId: record.productId,
-      size: record.size,
-      color: record.color,
-    };
-    await deleteProductInCart(form);
-    dispatch(onRemoveItem({ itemId: record.itemId }));
-  };
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      dispatch(onSelectProduct(selectedRows));
-    },
-  };
 
   return (
     <div>
@@ -174,7 +204,7 @@ const TableProduct = ({ cart, getData }) => {
         }}
         columns={columns}
         rowKey={"itemId"}
-        dataSource={cart}
+        dataSource={data}
         pagination={false}
         className="w-full"
         scroll={{ x: 900 }}

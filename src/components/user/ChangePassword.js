@@ -27,7 +27,7 @@ const ChangePassword = () => {
           openNotificationWithIcon("Đổi mật khẩu thành công", "success");
         })
         .catch(() => {
-          openNotificationWithIcon("Đổi mật khẩu thất bại");
+          openNotificationWithIcon("Mật khẩu cũ không chính xác");
         });
     }
   };

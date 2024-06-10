@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Modal } from "antd";
+import { Modal, notification } from "antd";
 import ModalAddress from "./ModalAddress";
 import { IoMdClose } from "react-icons/io";
 import { deleteAddress } from "@/api/User";
@@ -8,6 +8,13 @@ import { deleteAddress } from "@/api/User";
 const AddressClient = ({ address }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [addressID, setAddressID] = useState("");
+  const [api, contextHolder] = notification.useNotification();
+  const openNotificationWithIcon = (content, type = "error") => {
+    api[type]({
+      message: "Thông báo",
+      description: content,
+    });
+  };
   const showModal = (id) => {
     setAddressID(id);
     setIsModalOpen(true);
@@ -17,6 +24,7 @@ const AddressClient = ({ address }) => {
       addressID,
     };
     await deleteAddress(form);
+    openNotificationWithIcon("Xóa địa chỉ thành công", "success");
     setIsModalOpen(false);
   };
   const handleCancel = () => {
@@ -24,6 +32,7 @@ const AddressClient = ({ address }) => {
   };
   return (
     <div>
+      {contextHolder}
       <div>
         <div className="flex items-center pb-2 justify-between">
           <p className="text-xl ">Địa chỉ của tôi</p>

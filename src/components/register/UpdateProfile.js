@@ -14,6 +14,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { API } from "@/helper/url";
 import logo from "@/assets/trustybuy.png";
+import image from "@/assets/image_login.png";
 
 const UpdateProfile = () => {
   const [file, setFile] = useState([]);

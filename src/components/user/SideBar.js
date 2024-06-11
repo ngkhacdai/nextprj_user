@@ -53,7 +53,7 @@ const SideBar = ({ children }) => {
         collapsedWidth={0}
         trigger={null}
         collapsed={collapsed}
-        className="sticky bg-white min-h-120 hidden mdant:block top-28 left-0"
+        className="sticky bg-white min-h-120 hidden mdant:block top-28 left-0 border-r-inherit border-r-2"
         onCollapse={(value) => setCollapsed(value)}
       >
         <Menu

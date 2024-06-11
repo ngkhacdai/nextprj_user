@@ -37,9 +37,7 @@ const ProductInfo = ({ ProductDetail }) => {
       return openNotificationWithIcon("Số lượng sản phẩm trong kho không đủ");
     }
     if (!attribute || !options) {
-      return openNotificationWithIcon(
-        "Hãy chọn các thuộc tính để thêm vào giỏ hàng"
-      );
+      return openNotificationWithIcon("Hãy chọn các thuộc tính để mua");
     }
     const form = [
       {
@@ -130,7 +128,7 @@ const ProductInfo = ({ ProductDetail }) => {
           })}
         </h2>
         <div className="mt-2">
-          <Radio.Group onChange={onSelectAttributed}>
+          <Radio.Group value={attribute} onChange={onSelectAttributed}>
             {ProductDetail.product_attributes.map((item, index) => (
               <Radio.Button key={`attribute-${index}`} value={item}>
                 {item.color}

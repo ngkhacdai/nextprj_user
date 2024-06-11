@@ -2,8 +2,10 @@
 import { login } from "@/api/Access";
 import { Button, Form, Input, notification } from "antd";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 const LoginForm = () => {
   const [api, contextHolder] = notification.useNotification();
+  const [loadings, setLoadings] = useState(false);
   const router = useRouter();
   const openNotificationWithIcon = (content) => {
     api["error"]({
@@ -12,6 +14,7 @@ const LoginForm = () => {
     });
   };
   const onFinish = async (values) => {
+    setLoadings(true);
     const form = {
       email: values.email,
       password: values.password,
@@ -24,6 +27,7 @@ const LoginForm = () => {
       .catch(() => {
         openNotificationWithIcon("Sai tài khoản hoặc mật khẩu");
       });
+    setLoadings(false);
   };
   const onFinishFailed = (errorInfo) => {};
   return (
@@ -65,7 +69,7 @@ const LoginForm = () => {
           <Input.Password />
         </Form.Item>
 
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" loading={loadings} htmlType="submit">
           Đăng nhập
         </Button>
       </Form>

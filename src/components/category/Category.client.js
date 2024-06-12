@@ -38,15 +38,15 @@ const CategoryClient = ({ searchParams, categoryData, category }) => {
     <div className="pt-2 xl:w-5/6 mx-auto container">
       {/* <Button className="h-8 my-2 items-center flex xs:hidden">Lọc</Button> */}
 
-      <Row justify="space-between">
+      <Row gutter={[10, 10]} justify="space-between">
         <Col span={4} className="hidden xs:flex">
           <MenuCategory category={category} />
         </Col>
         <Col xs={24} sm={20}>
-          <div className="px-2">
+          <div className="">
             <CardCategory searchParams={searchParams} category={category} />
           </div>
-          <div className="h-8 my-2 items-center hidden xs:flex">
+          <div className="my-2 items-center hidden xs:flex bg-white p-2 rounded-xl w-full">
             <p className="pr-2">Sắp xếp theo: </p>
             <Radio.Group
               onChange={sortProduct}

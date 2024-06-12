@@ -15,6 +15,7 @@ const ListCategory = ({ category }) => {
   };
   return (
     <div className="bg-white p-2 mb-3">
+      <p className="text-lg p-2">Danh mục</p>
       <div className="relative">
         <Row gutter={[10, 10]} justify="start">
           {category &&
@@ -23,7 +24,7 @@ const ListCategory = ({ category }) => {
               return (
                 <Col
                   onClick={() => onSelectCategory(item)}
-                  className="text-center justify-center flex-col flex cursor-pointer border border-inherit hover:scale-105 hover:z-10 hover:shadow-3xl"
+                  className="text-center justify-center flex-col flex cursor-pointer border border-inherit hover:border-gray-300 hover:shadow-lg"
                   xs={6}
                   sm={4}
                   md={4}

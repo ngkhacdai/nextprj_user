@@ -27,9 +27,9 @@ const ListProduct = ({ product }) => {
               lg={6}
               xl={4}
               key={`product-${index}`}
-              className="p-2"
+              className="p-1"
             >
-              <div className="bg-white border-2 border-transparent hover:drop-shadow-lg hover:border-green-500 transition">
+              <div className="bg-white border-2 border-transparent hover:drop-shadow-lg hover:border-green-500 transition hover:-translate-y-1 duration-500">
                 <Link
                   href={`/product/${item._id}`}
                   className="w-full hover:text-black"

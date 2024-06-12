@@ -17,27 +17,27 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/autoplay";
+import { Carousel } from "antd";
 const Banner = () => {
   return (
     <div className="mb-2 bg-white">
-      <Swiper
-        spaceBetween={50}
-        slidesPerView={1}
-        modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-        autoplay={{ delay: 5000 }}
-        pagination={{ clickable: true }}
-        className="w-full h-96 "
+      <Carousel
+        autoplay={true}
+        autoplaySpeed={3000}
+        arrows={true}
+        infinite={true}
+        waitForAnimate={true}
       >
-        <SwiperSlide>
+        <div>
           <img alt="" className="w-full h-96" src={bannerImage.src} />
-        </SwiperSlide>
-        <SwiperSlide>
+        </div>
+        <div>
           <img alt="" className="w-full h-96" src={bannerImage1.src} />
-        </SwiperSlide>
-        <SwiperSlide>
+        </div>
+        <div>
           <img alt="" className="w-full h-96" src={bannerImage2.src} />
-        </SwiperSlide>
-      </Swiper>
+        </div>
+      </Carousel>
     </div>
   );
 };

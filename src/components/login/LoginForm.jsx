@@ -7,9 +7,9 @@ const LoginForm = () => {
   const [api, contextHolder] = notification.useNotification();
   const [loadings, setLoadings] = useState(false);
   const router = useRouter();
-  const openNotificationWithIcon = (content) => {
-    api["error"]({
-      message: "Thông báo lỗi",
+  const openNotificationWithIcon = (content, type = "error") => {
+    api[type]({
+      message: "Thông báo",
       description: content,
     });
   };
@@ -22,12 +22,13 @@ const LoginForm = () => {
     };
     await login(form)
       .then((res) => {
+        openNotificationWithIcon("Đăng nhập thành công", "success");
         router.push("/");
       })
       .catch(() => {
         openNotificationWithIcon("Sai tài khoản hoặc mật khẩu");
+        setLoadings(false);
       });
-    setLoadings(false);
   };
   const onFinishFailed = (errorInfo) => {};
   return (

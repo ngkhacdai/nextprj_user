@@ -19,9 +19,8 @@ export const verifyOtp = async (form) => {
   });
 };
 export const signout = async () => {
-  await DELETE("/access/signOut").then((res) => {
-    cookies().delete("userID");
-    cookies().delete("token");
-    redirect("/login");
-  });
+  DELETE("/access/signOut");
+  cookies().delete("userID");
+  cookies().delete("token");
+  redirect("/login");
 };

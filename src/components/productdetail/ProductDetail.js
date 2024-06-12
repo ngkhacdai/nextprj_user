@@ -33,7 +33,12 @@ const ProductDetail = async ({ productID }) => {
           <Descaption ProductDetail={productDetail} />
         </div>
         <div className="mt-2">
-          <p className="">Sản phẩm khác của shop</p>
+          <div className="bg-white text-center ">
+            <p className="py-2 text-lg text-green-500">
+              Sản phẩm khác của shop
+            </p>
+            <hr className="h-1 bg-green-500" />
+          </div>
           <ListProductShop product={shopData.products.slice(0, 6)} />
         </div>
       </div>

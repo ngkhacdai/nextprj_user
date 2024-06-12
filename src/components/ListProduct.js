@@ -6,14 +6,14 @@ import { useEffect, useRef, useState } from "react";
 import { FaStar } from "react-icons/fa6";
 
 const ListProduct = ({ product }) => {
-  const [productItem, setProductItem] = useState(product.slice(0, 12));
+  const [productItem, setProductItem] = useState(product.slice(0, 24));
   const ref = useRef();
   useEffect(() => {
-    setProductItem(product.slice(0, 12));
+    setProductItem(product.slice(0, 24));
   }, [product]);
   const changePage = (page) => {
     ref.current.scrollIntoView();
-    setProductItem(product.slice((page - 1) * 13, 13 * page - 1));
+    setProductItem(product.slice((page - 1) * 25, 25 * page - 1));
   };
   return (
     <div ref={ref} className="">
@@ -92,7 +92,7 @@ const ListProduct = ({ product }) => {
         className="p-2 text-center"
         defaultCurrent={1}
         total={product.length}
-        pageSize={12}
+        pageSize={24}
         showSizeChanger={false}
         onChange={changePage}
       />

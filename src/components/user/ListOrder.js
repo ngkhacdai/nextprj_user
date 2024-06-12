@@ -107,8 +107,10 @@ const ListOrder = ({ orderData }) => {
                       <p>Đã xác nhận</p>
                     ) : item.status === "shipped" ? (
                       <p>Đơn hàng đang được giao</p>
+                    ) : item.status === "delivered" ? (
+                      <p>Giao hàng thành công</p>
                     ) : (
-                      item.status === "delivered" && <p>Giao hàng thành công</p>
+                      item.status === "cancelled" && <p>Đơn hàng bị hủy</p>
                     )}
                   </span>
                   <Dropdown

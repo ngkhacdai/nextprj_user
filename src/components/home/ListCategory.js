@@ -24,17 +24,11 @@ const ListCategory = ({ category }) => {
               return (
                 <Col
                   onClick={() => onSelectCategory(item)}
-                  className="text-center justify-center flex-col flex cursor-pointer border border-inherit hover:border-gray-300 hover:shadow-lg"
-                  xs={6}
-                  sm={4}
-                  md={4}
-                  lg={3}
-                  xl={2}
+                  className="text-center justify-center xs:w-1/6 md:w-1/12  w-1/4  container flex-col flex cursor-pointer border border-inherit hover:border-gray-300 hover:shadow-lg"
                   key={`category-${index}`}
                 >
-                  <Image
-                    preview={false}
-                    className=""
+                  <img
+                    className="mx-auto w-16 bg-slate-200 object-scale-down h-16 m-4 rounded-full"
                     src={`${API}/${item.category_thumb}`}
                     alt=""
                   />

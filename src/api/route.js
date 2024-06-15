@@ -4,6 +4,14 @@ import { cookies } from "next/headers";
 // export const dynamic = "force-dynamic";
 const API = "https://dai.tongdaihoidap.com";
 
+export const getCookie = () => {
+  const userID = cookies().get("userID").value;
+  const token = cookies().get("token").value;
+  return {
+    userID,
+    token,
+  };
+};
 export async function GET(request) {
   const userID = cookies().get("userID").value;
   const token = cookies().get("token").value;

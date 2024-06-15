@@ -4,7 +4,9 @@ import { Affix } from "antd";
 import "../globals.css";
 import { Inter } from "next/font/google";
 import HeaderComponent from "@/components/Header/Header";
-import Chat from "@/components/chat/Chat";
+const Chat = dynamic(() => import("@/components/chat/Chat"), {
+  ssr: false,
+});
 import Loading from "../loading";
 import Footer from "@/components/footer/Footer";
 

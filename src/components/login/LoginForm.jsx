@@ -70,7 +70,12 @@ const LoginForm = () => {
           <Input.Password />
         </Form.Item>
 
-        <Button type="primary" loading={loadings} htmlType="submit">
+        <Button
+          data-testid="button_login"
+          type="primary"
+          loading={loadings}
+          htmlType="submit"
+        >
           Đăng nhập
         </Button>
       </Form>

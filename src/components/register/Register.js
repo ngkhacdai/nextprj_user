@@ -50,18 +50,3 @@ const Register = () => {
 };
 
 export default Register;
-{
-  /* <div className="text-center mt-52">
-      {isRegister ? (
-        <Otp
-          isRegister={isRegister}
-          setIsRegister={(values) => setIsRegister(values)}
-        />
-      ) : (
-        <div>
-          <RegisterForm setIsRegister={(values) => setIsRegister(values)} />
-          <FooterRegister />
-        </div>
-      )}
-    </div>  */
-}

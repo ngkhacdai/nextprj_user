@@ -10,17 +10,12 @@ const Otp = ({ isRegister, setIsRegister }) => {
   const router = useRouter();
 
   const [count, setCount] = useState(60);
-  const openNotificationWithIcon = (content) => {
-    api["error"]({
-      message: "Thông báo lỗi",
-      description: content,
-    });
-  };
+
   useEffect(() => {
     setTimeout(() => {
       setCount(count - 1);
     }, 1000);
-  });
+  }, []);
   const onChange = async (text) => {
     const form = {
       otp: text,
@@ -34,6 +29,12 @@ const Otp = ({ isRegister, setIsRegister }) => {
       .catch(() => {
         openNotificationWithIcon("Mã OTP sai");
       });
+  };
+  const openNotificationWithIcon = (content) => {
+    api["error"]({
+      message: "Thông báo lỗi",
+      description: content,
+    });
   };
   const sharedProps = {
     onChange,

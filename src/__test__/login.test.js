@@ -1,6 +1,11 @@
 import "../__mock__/match_media.mock";
 import LoginPage from "@/app/(auth)/login/page";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { login } from "../api/Access";
+
+jest.mock("../api/Access", () => ({
+  login: jest.fn(),
+}));
 
 jest.mock("next/navigation", () => ({
   useRouter() {
@@ -9,28 +14,53 @@ jest.mock("next/navigation", () => ({
     };
   },
 }));
+
 describe("Login", () => {
   it("renders the login page", () => {
     const { container } = render(<LoginPage />);
     expect(container).toBeInTheDocument();
   });
 
-  it("render email", () => {
+  it("should login success", async () => {
+    login.mockResolvedValueOnce({});
     render(<LoginPage />);
-    const emailInput = screen.getByLabelText(/email/i);
-    expect(emailInput).toBeInTheDocument();
-  });
+    const emailInput = screen.getByLabelText(/Email/i);
+    const passwordInput = screen.getByLabelText(/Password/i);
+    const button = screen.getByTestId("button_login");
 
-  it("onclick button", () => {
-    render(<LoginPage />);
-    const button = screen.getByTestId(/button_login/i);
-    expect(button).toBeInTheDocument();
+    fireEvent.change(emailInput, { target: { value: "ngkhacdai@gmail.com" } });
+    fireEvent.change(passwordInput, { target: { value: "123456" } });
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(login).toHaveBeenCalledWith({
+        email: "ngkhacdai@gmail.com",
+        password: "123456",
+        role: "User",
+      });
+      expect(screen.getByText("Đăng nhập thành công")).toBeInTheDocument();
+    });
   });
-  //   it("onclick button", () => {
-  //     const handleClick = jest.fn();
-  //     render(<LoginPage />);
-  //     const button = screen.getByTestId(/button_login/i);
-  //     fireEvent.click(button);
-  //     expect(handleClick).toHaveBeenCalledTimes(1);
-  //   });
+  it("should show error message when login fail", async () => {
+    login.mockResolvedValueOnce({});
+    render(<LoginPage />);
+    const emailInput = screen.getByLabelText(/Email/i);
+    const passwordInput = screen.getByLabelText(/Password/i);
+    const button = screen.getByTestId("button_login");
+
+    fireEvent.change(emailInput, { target: { value: "q@gmail.com" } });
+    fireEvent.change(passwordInput, { target: { value: "123456" } });
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(login).toHaveBeenCalledWith({
+        email: "q@gmail.com",
+        password: "123456",
+        role: "User",
+      });
+      expect(
+        screen.getByText("Sai tài khoản hoặc mật khẩu")
+      ).toBeInTheDocument();
+    });
+  });
 });

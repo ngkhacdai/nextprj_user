@@ -21,7 +21,7 @@ const LoginForm = () => {
       role: "User",
     };
     await login(form)
-      .then((res) => {
+      .then(() => {
         openNotificationWithIcon("Đăng nhập thành công", "success");
         router.push("/");
       })

@@ -9,9 +9,9 @@ const HomeComponent = async () => {
 
   return (
     <div>
-      <Banner />
+      {/* <Banner /> */}
       <ListCategory category={category} />
-      <ListProduct product={product} />
+      {/* <ListProduct product={product} /> */}
     </div>
   );
 };

@@ -1,11 +1,11 @@
 "use client";
 import FooterRegister from "@/components/register/FooterRegister";
-import Otp from "@/components/register/Otp";
 import RegisterForm from "@/components/register/RegisterForm";
 import { Col, Row } from "antd";
 import { useState } from "react";
 import image from "@/assets/image_login.png";
 import logo from "@/assets/trustybuy.png";
+import Otp from "./Otp";
 
 const Register = () => {
   const [isRegister, setIsRegister] = useState();

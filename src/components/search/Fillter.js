@@ -18,33 +18,17 @@ const Fillter = ({ productSearch = [], sortProduct }) => {
           [...productSearch].sort((a, b) => {
             const nameA = a.product_name.toUpperCase();
             const nameB = b.product_name.toUpperCase();
-            if (nameA < nameB) return -1;
-            if (nameA > nameB) return 1;
-            return 0;
+            return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
           })
         );
       case 3:
         return sortProduct(
-          [...productSearch].sort((a, b) => {
-            const nameA = a.product_price;
-            const nameB = b.product_price;
-            if (nameA < nameB) return -1;
-            if (nameA > nameB) return 1;
-            return 0;
-          })
+          [...productSearch].sort((a, b) => a.product_price - b.product_price)
         );
       case 4:
         return sortProduct(
-          [...productSearch].sort((a, b) => {
-            const nameA = a.product_sold;
-            const nameB = b.product_sold;
-            if (nameA < nameB) return 1;
-            if (nameA > nameB) return -1;
-            return 0;
-          })
+          [...productSearch].sort((a, b) => b.product_sold - a.product_sold)
         );
-      default:
-        return sortProduct(productSearch);
     }
   };
 
@@ -63,7 +47,7 @@ const Fillter = ({ productSearch = [], sortProduct }) => {
   return (
     <div>
       <Button onClick={showModal} className="flex mt-2 items-center">
-        <FaFilter className="mr-2" />
+        <FaFilter data-testid="btnsort" className="mr-2" />
         <p>Sắp xếp</p>
       </Button>
       <Modal

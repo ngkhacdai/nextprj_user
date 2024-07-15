@@ -21,12 +21,12 @@ const ProductList = ({ productData }) => {
     getData();
   }, [searchText]);
 
-  const handleSearch = () => {
-    const pathParts = searchParams.get("keyword");
-    // const encodedSearch = pathParts[1];
-    const decodedSearch = decodeURIComponent(pathParts).toLowerCase();
-    return decodedSearch;
-  };
+  // const handleSearch = () => {
+  //   const pathParts = searchParams.get("keyword");
+  //   // const encodedSearch = pathParts[1];
+  //   const decodedSearch = decodeURIComponent(pathParts).toLowerCase();
+  //   return decodedSearch;
+  // };
 
   const sortProduct = (sortedProducts) => {
     setProductSearch([...sortedProducts]);

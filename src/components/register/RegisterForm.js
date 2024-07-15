@@ -4,6 +4,12 @@ import { Button, Form, Input, notification } from "antd";
 
 const RegisterForm = ({ setIsRegister }) => {
   const [api, contextHolder] = notification.useNotification();
+  const openNotificationWithIcon = (content) => {
+    api["error"]({
+      message: "Thông báo lỗi",
+      description: content,
+    });
+  };
   const onFinish = async (values) => {
     const sliceEmail = values.email.split("@");
     const match = /^[a-zA-Z0-9._%+-]+$/;
@@ -32,19 +38,14 @@ const RegisterForm = ({ setIsRegister }) => {
         return openNotificationWithIcon("Email đã tồn tại!");
       });
   };
-  const openNotificationWithIcon = (content) => {
-    api["error"]({
-      message: "Thông báo lỗi",
-      description: content,
-    });
-  };
+
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    return openNotificationWithIcon("Không được để trống các trường");
   };
   return (
     <div className="flex flex-col mb-2  items-center justify-center ">
-      <p className="mb-2 text-2xl font-bold">Đăng ký</p>
       {contextHolder}
+      <p className="mb-2 text-2xl font-bold">Đăng ký</p>
       <Form
         name="basic"
         layout="vertical"
@@ -67,7 +68,7 @@ const RegisterForm = ({ setIsRegister }) => {
         </Form.Item>
 
         <Form.Item
-          label="Password"
+          label="password"
           name="password"
           rules={[
             {
@@ -92,7 +93,7 @@ const RegisterForm = ({ setIsRegister }) => {
         >
           <Input.Password />
         </Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button data-testid={"btnSubmit"} type="primary" htmlType="submit">
           Đăng ký
         </Button>
       </Form>

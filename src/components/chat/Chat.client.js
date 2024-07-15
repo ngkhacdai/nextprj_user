@@ -7,7 +7,7 @@ import ChatForm from "./ChatForm";
 import ChatBox from "./ChatBox";
 import { API } from "@/helper/url";
 
-const socket = io("https://nestprj.onrender.com/", {
+const socket = io("http://localhost:8080", {
   transports: ["websocket"],
 });
 

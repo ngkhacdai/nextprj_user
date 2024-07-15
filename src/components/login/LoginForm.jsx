@@ -21,7 +21,7 @@ const LoginForm = () => {
       role: "User",
     };
     await login(form)
-      .then((res) => {
+      .then(() => {
         openNotificationWithIcon("Đăng nhập thành công", "success");
         router.push("/");
       })
@@ -70,7 +70,12 @@ const LoginForm = () => {
           <Input.Password />
         </Form.Item>
 
-        <Button type="primary" loading={loadings} htmlType="submit">
+        <Button
+          data-testid="button_login"
+          type="primary"
+          loading={loadings}
+          htmlType="submit"
+        >
           Đăng nhập
         </Button>
       </Form>

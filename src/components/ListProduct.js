@@ -12,7 +12,7 @@ const ListProduct = ({ product }) => {
     setProductItem(product.slice(0, 24));
   }, [product]);
   const changePage = (page) => {
-    ref.current.scrollIntoView();
+    // ref.current.scrollIntoView();
     setProductItem(product.slice((page - 1) * 25, 25 * page - 1));
   };
   return (

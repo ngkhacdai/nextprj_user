@@ -1,6 +1,5 @@
-"use client";
 import { verifyOtp } from "@/api/Access";
-import { Input, notification } from "antd";
+import { Button, Form, Input, notification } from "antd";
 import Title from "antd/es/skeleton/Title";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -10,6 +9,7 @@ const Otp = ({ isRegister, setIsRegister }) => {
   const router = useRouter();
 
   const [count, setCount] = useState(60);
+  const [otp, setOtp] = useState("");
   const openNotificationWithIcon = (content) => {
     api["error"]({
       message: "Thông báo lỗi",
@@ -17,36 +17,55 @@ const Otp = ({ isRegister, setIsRegister }) => {
     });
   };
   useEffect(() => {
-    setTimeout(() => {
-      setCount(count - 1);
+    const timer = setInterval(() => {
+      setCount((prevCount) => (prevCount > 0 ? prevCount - 1 : 0));
     }, 1000);
-  });
-  const onChange = async (text) => {
+    if (count <= 0) {
+      setIsRegister(); // Call setIsRegister when count reaches 0
+    }
+    return () => {
+      clearInterval(timer);
+    };
+  }, [count, setIsRegister]);
+
+  const handleOtpChange = (e) => {
+    setOtp(e.target.value);
+  };
+
+  const onFinish = async () => {
     const form = {
-      otp: text,
+      otp,
       email: isRegister.email,
       password: isRegister.password,
     };
+
     await verifyOtp(form)
-      .then((res) => {
+      .then(() => {
+        openNotificationWithIcon("Đăng ký thành công");
         router.push("/updateprofile");
       })
       .catch(() => {
         openNotificationWithIcon("Mã OTP sai");
       });
   };
-  const sharedProps = {
-    onChange,
-  };
-  if (count === 0) {
-    setCount(60);
-    setIsRegister();
-  }
+
   return (
     <div>
       {contextHolder}
       <Title level={5}>With formatter (Upcase)</Title>
-      <Input.OTP formatter={(str) => str.toUpperCase()} {...sharedProps} />
+      <Form onFinish={onFinish}>
+        <Form.Item>
+          <Input
+            data-testid="inputOTP"
+            name="otp"
+            value={otp}
+            onChange={handleOtpChange}
+          />
+        </Form.Item>
+        <Button data-testid="btnSubmit" type="primary" htmlType="submit">
+          Xác nhận
+        </Button>
+      </Form>
       <p className="mt-3">Bạn có {count} giây để nhập mã OTP</p>
     </div>
   );

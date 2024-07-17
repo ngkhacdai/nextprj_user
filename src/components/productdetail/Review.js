@@ -58,24 +58,24 @@ const Review = ({ productDetail }) => {
   );
   return (
     <div className="bg-white mt-2 p-2">
-      <p>Người dùng đánh giá</p>
+      <div>Người dùng đánh giá</div>
       <Row gutter={[10, 10]}>
         <Col xs={24} sm={6}>
           <div className="text-center">
-            <p className="font-bold text-xl">
+            <div className="font-bold text-xl">
               {productDetail?.product_ratingAverage} trên 5
-            </p>
+            </div>
             <Rate
               allowHalf
               defaultValue={productDetail?.product_ratingAverage}
               disabled
             />
-            <p>
+            <div>
               {productDetail?.reviews === "Chưa có đánh giá nào"
                 ? 0
                 : productDetail?.reviews.length}{" "}
               đánh giá
-            </p>
+            </div>
           </div>
         </Col>
         <Col xs={24} sm={18}>

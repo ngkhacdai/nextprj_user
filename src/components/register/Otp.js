@@ -22,10 +22,8 @@ const Otp = ({ isRegister, setIsRegister }) => {
     }, 1000);
     if (count <= 0) {
       setIsRegister(); // Call setIsRegister when count reaches 0
-    }
-    return () => {
       clearInterval(timer);
-    };
+    }
   }, [count, setIsRegister]);
 
   const handleOtpChange = (e) => {

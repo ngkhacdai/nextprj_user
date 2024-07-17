@@ -58,19 +58,14 @@ const ListReview = ({ reviews }) => {
           })
         );
         break;
-      default:
-        break;
     }
   };
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
   return (
     <div>
       {reviews == "Chưa có đánh giá nào" ? null : (
         <div>
           <div className="xs:flex items-center">
-            <p className="mr-2">Sắp xếp theo: </p>
+            <div className="mr-2">Sắp xếp theo: </div>
             <Radio.Group
               defaultValue="all"
               onChange={(e) => fillter(e.target.value)}
@@ -98,20 +93,20 @@ const ListReview = ({ reviews }) => {
                   }
                   title={
                     <div>
-                      <p className="text-sm">
+                      <div className="text-sm">
                         {item.user.information.fullName}
-                      </p>
-                      <p>
+                      </div>
+                      <div>
                         <Rate
                           className="text-sm"
                           disabled
                           value={item.rating}
                         />
-                      </p>
-                      <p>{getUTCTimestamp(item.updatedAt)}</p>
+                      </div>
+                      <div>{getUTCTimestamp(item.updatedAt)}</div>
                     </div>
                   }
-                  description={<p className="text-black">{item.comment}</p>}
+                  description={<div className="text-black">{item.comment}</div>}
                 />
               </List.Item>
             )}

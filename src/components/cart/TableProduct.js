@@ -1,4 +1,3 @@
-"use client";
 import { Button, Table } from "antd";
 import { useDispatch } from "react-redux";
 import { API } from "@/helper/url";
@@ -197,7 +196,6 @@ const TableProduct = ({ cart }) => {
   return (
     <div>
       <Table
-        span={24}
         rowSelection={{
           type: "checkbox",
           ...rowSelection,

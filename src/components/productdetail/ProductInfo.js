@@ -33,11 +33,11 @@ const ProductInfo = ({ ProductDetail }) => {
     setOptions("");
   }, [attribute]);
   const payProduct = async () => {
-    if (count > options.options_quantity) {
-      return openNotificationWithIcon("Số lượng sản phẩm trong kho không đủ");
-    }
     if (!attribute || !options) {
       return openNotificationWithIcon("Hãy chọn các thuộc tính để mua");
+    }
+    if (count > options.options_quantity) {
+      return openNotificationWithIcon("Số lượng sản phẩm trong kho không đủ");
     }
     const form = [
       {
@@ -56,13 +56,13 @@ const ProductInfo = ({ ProductDetail }) => {
     router.push("/checkout");
   };
   const addToCart = async () => {
-    if (count > options.options_quantity) {
-      return openNotificationWithIcon("Số lượng sản phẩm trong kho không đủ");
-    }
     if (!attribute || !options) {
       return openNotificationWithIcon(
         "Hãy chọn các thuộc tính để thêm vào giỏ hàng"
       );
+    }
+    if (count > options.options_quantity) {
+      return openNotificationWithIcon("Số lượng sản phẩm trong kho không đủ");
     }
     const product = {
       productId: window.location.pathname.split("/")[2],
@@ -149,12 +149,21 @@ const ProductInfo = ({ ProductDetail }) => {
         <div>Số lượng hàng còn lại: {options.options_quantity}</div>
       </div>
       <div className="my-2">
-        <Button onClick={countDecrement}>-</Button>
+        <Button data-testid="btndecrement" onClick={countDecrement}>
+          -
+        </Button>
         <span className="mx-5">{count}</span>
-        <Button onClick={countIncrement}>+</Button>
+        <Button data-testid="btnincrement" onClick={countIncrement}>
+          +
+        </Button>
       </div>
       <div>
-        <Button onClick={addToCart} type="primary" className="mr-3 ">
+        <Button
+          data-testid="btnaddtocart"
+          onClick={addToCart}
+          type="primary"
+          className="mr-3 "
+        >
           Thêm vào giỏ hàng
         </Button>
         <ConfigProvider

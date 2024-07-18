@@ -5,29 +5,27 @@ import { useSelector } from "react-redux";
 
 const TableProduct = () => {
   const productSelected = useSelector((state) => state.cart.selectProduct);
+
   const columns = [
     {
       title: "Shop Name",
       dataIndex: "name_shop",
       key: "name_shop",
-      render: (value, row, index) => {
-        const obj = {
-          children: value,
-          props: {},
-        };
-        if (
-          index > 0 &&
-          row.name_shop === productSelected[index - 1].name_shop
-        ) {
-          obj.props.rowSpan = 0;
-        } else {
-          const count = productSelected.filter(
-            (item) => item.name_shop === value
-          ).length;
-          obj.props.rowSpan = count;
+      onCell: (record, rowIndex) => {
+        const prevRecord = productSelected[rowIndex - 1];
+        const nextRecord = productSelected[rowIndex + 1];
+        let rowSpan = 1;
+        if (rowIndex > 0 && record.name_shop === prevRecord?.name_shop) {
+          return { rowSpan: 0 };
         }
-        return obj;
+        if (record.name_shop === nextRecord?.name_shop) {
+          rowSpan = productSelected.filter(
+            (item) => item.name_shop === record.name_shop
+          ).length;
+        }
+        return { rowSpan };
       },
+      render: (text) => text,
     },
     {
       title: "Sản phẩm",
@@ -89,13 +87,18 @@ const TableProduct = () => {
     },
   ];
 
+  const dataSource = productSelected.map((item, index) => ({
+    ...item,
+    key: item.productId || index, // Ensure each item has a unique key
+  }));
+
   return (
     <div className="mt-2 w-full bg-white">
       <Table
         className="p-2"
         pagination={false}
         columns={columns}
-        dataSource={productSelected}
+        dataSource={dataSource}
         scroll={{ x: 900 }}
       />
     </div>

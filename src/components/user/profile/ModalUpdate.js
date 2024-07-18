@@ -9,11 +9,9 @@ import { useDispatch } from "react-redux";
 const ModalUpdate = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [file, setFile] = useState([]);
-  const [fullname, setFullName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [gender, setGender] = useState("Nam");
   const dispatch = useDispatch();
   const [api, contextHolder] = notification.useNotification();
+  const [form] = Form.useForm();
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -23,13 +21,16 @@ const ModalUpdate = () => {
       description: content,
     });
   };
+
   const handleOk = async () => {
-    if (file.length !== 0 && fullname && phoneNumber && gender) {
+    const formValues = form.getFieldsValue();
+    const { fullName, phone, gender } = formValues;
+    if (file.length !== 0 && fullName && phone && gender) {
       const formData = new FormData();
-      formData.append("avatar", file.originFileObj);
-      formData.append("fullName", fullname);
+      formData.append("avatar", file[0].originFileObj);
+      formData.append("fullName", fullName);
       formData.append("gender", gender);
-      formData.append("phoneNumber", phoneNumber);
+      formData.append("phoneNumber", phone);
       await updateProfile(formData);
       openNotificationWithIcon("Cập nhật thành công", "success");
       dispatch(fetchUserInfo());
@@ -40,9 +41,8 @@ const ModalUpdate = () => {
     }
   };
   const clearForm = () => {
-    setFullName("");
-    setPhoneNumber("");
-    setGender("Nam");
+    form.resetFields();
+    setFile([]);
   };
   const handleCancel = () => {
     clearForm();
@@ -51,7 +51,11 @@ const ModalUpdate = () => {
   return (
     <div>
       {contextHolder}
-      <Button type="primary" onClick={showModal}>
+      <Button
+        type="primary"
+        data-testid="updateInFormation"
+        onClick={showModal}
+      >
         Update thông tin cá nhân
       </Button>
       <Modal
@@ -64,6 +68,7 @@ const ModalUpdate = () => {
       >
         <Form
           name="basic"
+          form={form}
           labelCol={{
             span: 24,
           }}
@@ -72,6 +77,11 @@ const ModalUpdate = () => {
           }}
           className="w-full text-center"
           autoComplete="off"
+          initialValues={{
+            fullName: "",
+            phoneNumber: "",
+            gender: "Nam",
+          }}
         >
           <Form.Item
             label="Ảnh đại diện"
@@ -88,8 +98,9 @@ const ModalUpdate = () => {
               maxCount={1}
               name="avatar"
               listType="picture-card"
+              fileList={file}
               onChange={(e) => {
-                setFile(e.fileList[0]);
+                setFile(e.fileList);
               }}
             >
               <button
@@ -98,6 +109,7 @@ const ModalUpdate = () => {
                   background: "none",
                 }}
                 type="button"
+                data-testid="btnupload"
               >
                 <PlusOutlined />
                 <div
@@ -121,12 +133,7 @@ const ModalUpdate = () => {
             name="fullName"
             required={true}
           >
-            <Input
-              value={fullname}
-              onChange={(e) => {
-                setFullName(e.target.value);
-              }}
-            />
+            <Input />
           </Form.Item>
           <Form.Item
             label="Số điện thoại"
@@ -140,21 +147,10 @@ const ModalUpdate = () => {
             required={true}
             name="phone"
           >
-            <Input
-              type="Number"
-              value={phoneNumber}
-              onChange={(e) => {
-                setPhoneNumber(e.target.value);
-              }}
-            />
+            <Input type="tel" />
           </Form.Item>
           <Form.Item label="Giới tính" name="gender">
-            <Radio.Group
-              defaultValue={gender}
-              onChange={(e) => {
-                setGender(e.target.value);
-              }}
-            >
+            <Radio.Group>
               <Radio value="Nam"> Nam </Radio>
               <Radio value="Nữ"> Nữ </Radio>
             </Radio.Group>

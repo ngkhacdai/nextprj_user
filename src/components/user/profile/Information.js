@@ -1,9 +1,7 @@
 "use client";
-
-import { Col, Row, Spin } from "antd";
+import { Col, Row } from "antd";
 import ModalUpdate from "./ModalUpdate";
 import { API } from "@/helper/url";
-import { useSelector } from "react-redux";
 
 const Information = ({ profile }) => {
   function hideEmail(email) {
@@ -25,17 +23,13 @@ const Information = ({ profile }) => {
       <hr />
       <Row justify="space-between">
         <Col>
-          {/* <div className="flex mb-2">
-            <p className="mr-4 w-24 text-right">Tên đăng nhập</p>
-            <span>{profile.email}</span>
-          </div> */}
           <div className="flex mb-2">
             <p className="mr-4 w-24 text-right">Tên</p>
             <p>
               {profile?.information ? (
                 profile?.information?.fullName
               ) : (
-                <p>Hãy cập nhật thông tin</p>
+                <span>Hãy cập nhật thông tin</span>
               )}
             </p>
           </div>
@@ -49,20 +43,18 @@ const Information = ({ profile }) => {
               {profile.information ? (
                 hideNumber(profile?.information?.phoneNumber)
               ) : (
-                <p>Hãy cập nhật thông tin</p>
+                <span>Hãy cập nhật thông tin</span>
               )}
             </span>
           </div>
           <div className="flex mb-2">
             <p className="mr-4 w-24 text-right">Giới tính</p>
             <span>
-              <p>
-                {profile?.information ? (
-                  profile?.information?.gender
-                ) : (
-                  <p>Hãy cập nhật thông tin</p>
-                )}
-              </p>
+              {profile?.information ? (
+                profile?.information?.gender
+              ) : (
+                <span>Hãy cập nhật thông tin</span>
+              )}
             </span>
           </div>
         </Col>

@@ -76,7 +76,6 @@ const Method = ({ address }) => {
     await PayProduct(orderData);
     router.push("/user/order", { shallow: false });
     // window.location.href = "/user/order";
-    setIsModalOpen(false);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -188,6 +187,7 @@ const Method = ({ address }) => {
               onClick={payhandle}
               className="md:w-auto min-w-full h-12"
               type="primary"
+              data-testid="btnPay"
             >
               Đặt hàng
             </Button>

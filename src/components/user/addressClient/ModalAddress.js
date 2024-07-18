@@ -3,10 +3,11 @@ import { Button, Form, Input, Modal, Select, notification } from "antd";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { addAddress } from "@/api/User";
+import addressData from "@/helper/address-data.json";
 
 const ModalAddress = ({ getData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [cities, setCities] = useState([]);
+  const [cities, setCities] = useState(addressData);
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedWard, setSelectedWard] = useState("");
@@ -15,31 +16,21 @@ const ModalAddress = ({ getData }) => {
   const [nameAddress, setNameAddress] = useState("");
   const [address, setAddress] = useState("");
   const [api, contextHolder] = notification.useNotification();
+  const [form] = Form.useForm();
+
   const openNotificationWithIcon = (content, type = "error") => {
     api[type]({
       message: "Thông báo",
       description: content,
     });
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json"
-        );
-        setCities(response.data);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-    fetchData();
-  }, []);
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
   const handleSubmit = async () => {
+    console.log(form.getFieldValue());
     const cityName =
       cities.find((city) => city.Id === selectedCity)?.Name || "";
     const districtName =
@@ -59,6 +50,7 @@ const ModalAddress = ({ getData }) => {
       onClearForm();
     }
   };
+
   const onClearForm = () => {
     setSelectedCity("");
     setSelectedDistrict("");
@@ -67,7 +59,9 @@ const ModalAddress = ({ getData }) => {
     setWards([]);
     setNameAddress("");
     setAddress("");
+    form.resetFields();
   };
+
   const handleCancel = () => {
     setIsModalOpen(false);
     onClearForm();
@@ -78,6 +72,7 @@ const ModalAddress = ({ getData }) => {
     setSelectedDistrict("");
     setDistricts(cities.find((city) => city.Id === value)?.Districts || []);
     setWards([]); // Reset danh sách phường/xã khi chọn lại thành phố
+    form.setFieldsValue({ district: "", ward: "" });
   };
 
   const handleDistrictChange = (value) => {
@@ -87,6 +82,7 @@ const ModalAddress = ({ getData }) => {
         .find((city) => city.Id === selectedCity)
         ?.Districts.find((district) => district.Id === value)?.Wards || []
     );
+    form.setFieldsValue({ ward: "" });
   };
 
   const handleWardChange = (value) => {
@@ -104,16 +100,24 @@ const ModalAddress = ({ getData }) => {
       </Button>
       <Modal
         title="Địa chỉ mới"
-        visible={isModalOpen}
+        open={isModalOpen}
         onOk={handleSubmit}
         onCancel={handleCancel}
       >
         <Form
+          form={form}
           labelCol={{
             span: 24,
           }}
           wrapperCol={{
             span: 24,
+          }}
+          initialValues={{
+            addressName: nameAddress,
+            address: address,
+            city: selectedCity,
+            district: selectedDistrict,
+            ward: selectedWard,
           }}
         >
           <Form.Item
@@ -125,10 +129,7 @@ const ModalAddress = ({ getData }) => {
             name="addressName"
             label="Tên địa chỉ"
           >
-            <Input
-              value={nameAddress}
-              onChange={(e) => setNameAddress(e.target.value)}
-            />
+            <Input onChange={(e) => setNameAddress(e.target.value)} />
           </Form.Item>
           <Form.Item
             rules={[
@@ -136,8 +137,8 @@ const ModalAddress = ({ getData }) => {
                 required: true,
               },
             ]}
-            name="selectAddress"
-            label="Địa chỉ"
+            name="city"
+            label="Tỉnh/Thành phố"
           >
             <Select
               className="form-select form-select-sm mb-3"
@@ -153,7 +154,16 @@ const ModalAddress = ({ getData }) => {
                 </Select.Option>
               ))}
             </Select>
-
+          </Form.Item>
+          <Form.Item
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+            name="district"
+            label="Quận/Huyện"
+          >
             <Select
               className="form-select form-select-sm mb-3"
               value={selectedDistrict}
@@ -168,7 +178,16 @@ const ModalAddress = ({ getData }) => {
                 </Select.Option>
               ))}
             </Select>
-
+          </Form.Item>
+          <Form.Item
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+            name="ward"
+            label="Phường/Xã"
+          >
             <Select
               className="form-select form-select-sm"
               value={selectedWard}
@@ -193,10 +212,7 @@ const ModalAddress = ({ getData }) => {
             name="address"
             label={"Địa chỉ cụ thể"}
           >
-            <Input
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
+            <Input onChange={(e) => setAddress(e.target.value)} />
           </Form.Item>
         </Form>
       </Modal>

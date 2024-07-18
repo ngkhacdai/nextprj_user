@@ -79,7 +79,6 @@ describe("Cart", () => {
   useRouter.mockReturnValue(mockRouter);
   const store = configureStore({
     reducer: {
-      // Add any reducers here if needed, but for now just using mockReducer
       mockReducer,
     },
   });
@@ -131,6 +130,11 @@ describe("footer cart", () => {
         <FooterCart />
       </Provider>
     );
+    const payButton = await screen.findByText("Mua hàng");
+    await act(() => {
+      fireEvent.click(payButton);
+    });
+    expect(screen.getByText("Hãy chọn sản phẩm")).toBeInTheDocument();
   });
   it("render footer cart", async () => {
     const mockRouter = {
@@ -148,5 +152,10 @@ describe("footer cart", () => {
         <FooterCart />
       </Provider>
     );
+    const payButton = await screen.findByText("Mua hàng");
+    await act(() => {
+      fireEvent.click(payButton);
+    });
+    expect(mockRouter.push).toHaveBeenCalledWith("/checkout");
   });
 });

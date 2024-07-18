@@ -62,21 +62,13 @@ const FooterCart = () => {
               },
             }}
           >
-            {showNavLink ? (
-              <Link href="/checkout" className="w-full md:w-auto">
-                <Button className="w-full md:w-48 h-11" type="primary">
-                  Mua hàng
-                </Button>
-              </Link>
-            ) : (
-              <Button
-                onClick={checkoutHandler}
-                className="w-full md:w-48 h-11"
-                type="primary"
-              >
-                Mua hàng
-              </Button>
-            )}
+            <Button
+              onClick={checkoutHandler}
+              className="w-full md:w-48 h-11"
+              type="primary"
+            >
+              Mua hàng
+            </Button>
           </ConfigProvider>
         </Col>
       </Row>

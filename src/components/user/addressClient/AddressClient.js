@@ -59,6 +59,7 @@ const AddressClient = ({ address }) => {
                     </div>
                     <div>
                       <IoMdClose
+                        data-testid="btnDeleteAddress"
                         onClick={() => {
                           showModal(item._id);
                         }}
@@ -76,6 +77,7 @@ const AddressClient = ({ address }) => {
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
+          cancelText="Đóng"
         >
           <p>Bạn có muốn xóa địa chỉ này không?</p>
         </Modal>

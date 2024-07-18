@@ -1,0 +1,242 @@
+import "@/__mock__/match_media.mock";
+import { addAddress, deleteAddress, updateProfile } from "@/api/User";
+import AddressClient from "@/components/user/addressClient/AddressClient";
+import Information from "@/components/user/profile/Information";
+import { beforeEach, describe, expect, test } from "@jest/globals";
+import { configureStore } from "@reduxjs/toolkit";
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import { useRouter } from "next/navigation";
+import { Provider } from "react-redux";
+
+jest.mock("../api/User", () => ({
+  updateProfile: jest.fn(),
+  deleteAddress: jest.fn(),
+  addAddress: jest.fn(),
+}));
+jest.mock("next/navigation", () => ({
+  __esModule: true,
+  useRouter: jest.fn(),
+}));
+
+const profile = {
+  _id: "663994a9a406d088f89ed562",
+  user_name: "",
+  email: "ngkhacdai@gmail.com",
+  status: "inactive",
+  role: "User",
+  information: {
+    _id: "663994c3a406d088f89ed565",
+    phoneNumber: 983946066,
+    address: [
+      {
+        _id: "663d72eda406d088f8a1c6c2",
+        nameAddress: "Home",
+        customAddress:
+          "41A ngách 138 Phường Mễ Trì Quận Nam Từ Liêm Thành phố Hà Nội",
+        userinfor: {
+          userName: "Nguyễn Khắc Đại",
+          phoneNumber: 983946066,
+        },
+        createdAt: "2024-05-10T01:05:49.524Z",
+        updatedAt: "2024-05-10T01:05:49.524Z",
+        __v: 0,
+      },
+      {
+        _id: "663de0c6a406d088f8a1ee70",
+        nameAddress: "Not Home",
+        customAddress:
+          "gádgasdg Phường Hàng Buồm Quận Hoàn Kiếm Thành phố Hà Nội",
+        userinfor: {
+          userName: "Nguyễn Khắc Đại",
+          phoneNumber: 983946066,
+        },
+        createdAt: "2024-05-10T08:54:30.369Z",
+        updatedAt: "2024-05-10T08:54:30.369Z",
+        __v: 0,
+      },
+    ],
+    avatar: "uploads/1715568026621-táº£i xuá»ng.jpg",
+    fullName: "Nguyễn Khắc Đại",
+    gender: "Nam",
+    createdAt: "2024-05-07T02:41:07.665Z",
+    updatedAt: "2024-06-12T03:05:14.978Z",
+    __v: 0,
+  },
+  disable: false,
+  createdAt: "2024-05-07T02:40:41.653Z",
+  updatedAt: "2024-06-19T08:28:40.744Z",
+  __v: 0,
+};
+
+const mockReducer = (state = {}, action) => state;
+
+describe("Profile", () => {
+  beforeAll(() => {
+    global.URL.createObjectURL = jest.fn();
+  });
+  const store = configureStore({
+    reducer: {
+      mockReducer,
+    },
+  });
+  const mockRouter = {
+    push: jest.fn(),
+  };
+  useRouter.mockReturnValue(mockRouter);
+  it("update profile success", async () => {
+    updateProfile.mockResolvedValueOnce({});
+    render(
+      <Provider store={store}>
+        <Information profile={{}} />
+      </Provider>
+    );
+
+    const updateInFormation = await screen.findByTestId("updateInFormation");
+    await act(async () => {
+      fireEvent.click(updateInFormation);
+    });
+
+    const hiddenFileInput = document.querySelector('input[type="file"]');
+    const file = new File(["hello"], "hello.png", { type: "image/png" });
+    await act(async () => {
+      fireEvent.change(hiddenFileInput, { target: { files: [file] } });
+    });
+
+    const fullnameInput = await screen.findByLabelText("Họ và tên");
+    await act(async () => {
+      fireEvent.change(fullnameInput, { target: { value: "Nguyễn Khắc Đại" } });
+    });
+
+    const phoneNumberInput = await screen.findByLabelText("Số điện thoại");
+    await act(async () => {
+      fireEvent.change(phoneNumberInput, { target: { value: "0123456789" } });
+    });
+
+    const gender = await screen.findByText("Nữ");
+    await act(async () => {
+      fireEvent.click(gender);
+    });
+
+    const btnUpdate = await screen.findByText("Cập nhật");
+    await act(async () => {
+      fireEvent.click(btnUpdate);
+    });
+
+    expect(screen.getByText("Thông báo")).toBeInTheDocument();
+  });
+  it("update profile fail", async () => {
+    updateProfile.mockResolvedValueOnce({});
+    render(
+      <Provider store={store}>
+        <Information profile={{}} />
+      </Provider>
+    );
+    const updateInFormation = await screen.findByTestId("updateInFormation");
+    await act(async () => {
+      fireEvent.click(updateInFormation);
+    });
+    const btnUpdate = await screen.findByText("Cập nhật");
+    await act(async () => {
+      fireEvent.click(btnUpdate);
+    });
+    expect(screen.getByText("Thông báo")).toBeInTheDocument();
+  });
+  it("close modal", async () => {
+    updateProfile.mockResolvedValueOnce({});
+    render(
+      <Provider store={store}>
+        <Information profile={{}} />
+      </Provider>
+    );
+    const updateInFormation = await screen.findByTestId("updateInFormation");
+    await act(async () => {
+      fireEvent.click(updateInFormation);
+    });
+    const btnCancel = await screen.findByText("Hủy");
+    await act(async () => {
+      fireEvent.click(btnCancel);
+    });
+  });
+
+  test("render information", () => {
+    render(
+      <Provider store={store}>
+        <Information profile={profile} />
+      </Provider>
+    );
+  });
+});
+
+describe("Address", () => {
+  beforeEach(() => {
+    render(<AddressClient address={profile.information.address} />);
+    deleteAddress.mockResolvedValueOnce({});
+    addAddress.mockResolvedValueOnce({});
+  });
+  it("close modal delete", async () => {
+    const btnDeleteAddress = await screen.findAllByTestId("btnDeleteAddress");
+    await act(async () => {
+      fireEvent.click(btnDeleteAddress[0]);
+    });
+    expect(screen.getByText("Xóa địa chỉ")).toBeInTheDocument();
+    const btnCloseModalDelete = await screen.findByText("Đóng");
+    await act(async () => {
+      fireEvent.click(btnCloseModalDelete);
+    });
+  });
+  it("delete address", async () => {
+    const btnDeleteAddress = await screen.findAllByTestId("btnDeleteAddress");
+    await act(async () => {
+      fireEvent.click(btnDeleteAddress[0]);
+    });
+    expect(screen.getByText("Xóa địa chỉ")).toBeInTheDocument();
+    const btnDelete = await screen.findByText("OK");
+    await act(async () => {
+      fireEvent.click(btnDelete);
+    });
+    expect(screen.getByText("Xóa địa chỉ thành công")).toBeInTheDocument();
+  });
+  it("close modal add address", async () => {
+    const btnAddAddress = await screen.findByText("Thêm địa chỉ mới");
+    await act(async () => {
+      fireEvent.click(btnAddAddress);
+    });
+    expect(screen.getByText("Địa chỉ mới")).toBeInTheDocument();
+    const btnCloseModalAdd = await screen.findByText("Cancel");
+    await act(async () => {
+      fireEvent.click(btnCloseModalAdd);
+    });
+  });
+  it("open modal and add address", async () => {
+    const btnAddAddress = await screen.findByText("Thêm địa chỉ mới");
+    await act(async () => {
+      fireEvent.click(btnAddAddress);
+    });
+    expect(screen.getByText("Địa chỉ mới")).toBeInTheDocument();
+    const inputAddressName = await screen.findByLabelText("Tên địa chỉ");
+    await act(async () => {
+      fireEvent.change(inputAddressName, { target: { value: "Home1" } });
+    });
+    const inputCustomAddress = await screen.findByLabelText("Địa chỉ cụ thể");
+    await act(async () => {
+      fireEvent.change(inputCustomAddress, { target: { value: "asdfasdf" } });
+    });
+    const selectCity = await screen.findByLabelText("Tỉnh/Thành phố");
+    await act(async () => {
+      fireEvent.select(selectCity, { target: { value: "01" } });
+    });
+    expect(screen.getByText("Thành phố Hà Nội")).toBeInTheDocument();
+    const selectDistrict = await screen.findByLabelText("Quận/Huyện");
+    await act(async () => {
+      fireEvent.select(selectDistrict, { target: { value: "001" } });
+    });
+    const selectWard = await screen.findByLabelText("Phường/Xã");
+    await act(async () => {
+      fireEvent.select(selectWard, { target: { value: "00001" } });
+    });
+    const btnSaveAddress = await screen.findByText("OK");
+    await act(async () => {
+      fireEvent.click(btnSaveAddress);
+    });
+  });
+});

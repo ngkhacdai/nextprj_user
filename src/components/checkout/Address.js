@@ -1,19 +1,18 @@
-"use client";
 import { Button, Col, Modal, Radio, Row, Space } from "antd";
 import { useState } from "react";
 
 const Address = ({ address }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectIndex, setSelectedIndex] = useState(0);
+
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   const handleRadioChange = (e) => {
     setSelectedIndex(e.target.value);
   };
@@ -23,29 +22,26 @@ const Address = ({ address }) => {
       <div className="text-xl text-red-400">Địa chỉ nhận hàng</div>
       <Modal
         title="Địa chỉ của tôi"
-        visible={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
+        open={isModalOpen} // Use 'open' instead of 'visible'
+        onCancel={handleCancel} // Use 'onClose' instead of 'onCancel'
         okButtonProps={{ style: { display: "none" } }}
       >
         <hr />
         <Radio.Group onChange={handleRadioChange} value={selectIndex}>
           <Space direction="vertical">
-            {address?.map((item, index) => {
-              return (
-                <Radio key={`address-${index}`} value={index}>
-                  <Row className="">
-                    <Col className="mr-2 font-bold">
-                      {item.userinfor.userName}
-                    </Col>
-                    <Col className="mr-2 font-bold">
-                      0{item.userinfor.phoneNumber}
-                    </Col>
-                    <Col className="mr-2">{item.customAddress}</Col>
-                  </Row>
-                </Radio>
-              );
-            })}
+            {address?.map((item, index) => (
+              <Radio key={`address-${index}`} value={index}>
+                <Row>
+                  <Col className="mr-2 font-bold">
+                    {item.userinfor.userName}
+                  </Col>
+                  <Col className="mr-2 font-bold">
+                    0{item.userinfor.phoneNumber}
+                  </Col>
+                  <Col className="mr-2">{item.customAddress}</Col>
+                </Row>
+              </Radio>
+            ))}
           </Space>
         </Radio.Group>
       </Modal>

@@ -163,6 +163,7 @@ const ListOrder = ({ orderData }) => {
                         item.product_attributes.productId
                       )
                     }
+                    data-testid="deliver"
                     className="mr-2"
                     type="primary"
                   >

@@ -1,5 +1,5 @@
 import "@/__mock__/match_media.mock";
-import { cancelByUser } from "@/api/Order";
+import { cancelByUser, changeStatusByUser } from "@/api/Order";
 import { addAddress, deleteAddress, updateProfile } from "@/api/User";
 import AddressClient from "@/components/user/addressClient/AddressClient";
 import ListOrder from "@/components/user/ListOrder";
@@ -18,6 +18,7 @@ jest.mock("../api/User", () => ({
 }));
 jest.mock("../api/Order", () => ({
   cancelByUser: jest.fn(),
+  changeStatusByUser: jest.fn(),
 }));
 const mockUsePathname = jest.fn();
 
@@ -89,39 +90,81 @@ const profile = {
 
 const statuses = ["pending", "confirmed", "shipped", "cancelled", "delivered"];
 
-const mockOrder = Array.from({ length: 50 }, (_, index) => ({
-  oderId: index,
-  status: "pending",
-  name_shop: "Atrastino",
-  shopId: "657dcd5a25b94a98c4b4945e",
-  avatar_shop:
-    "uploads/1702818409168-rn_image_picker_lib_temp_d63212ab-baa6-437a-b395-22d30bc6d1ef.png",
-  product_name: "Nước hoa CM24 ICONIC COOL EDP",
-  product_thumb: [
-    "1702770450767-cm2312341.jpg",
-    "1702770450770-thumb168-cm24-50ml-1.jpg",
-    "1702770450773-thumb168-cm24-50ml-3.jpg",
-    "1702770450774-IconicCool_4.jpg",
-    "1702770450774-IconicCool_6.jpg",
-    "1702770450779-IconicCool.jpg",
-  ],
-  product_attributes: {
-    price: 519000,
-    quantity: 3,
-    productId: "657e371225b94a98c4b4eff4",
-    color: "Đen",
-    size: "5l",
-  },
-  order_checkout: {
-    totalPrice: 1557000,
-    feeShip: 30000,
-    totalDiscount: 0,
-    totalCheckout: 1557000,
-  },
-  order_status: statuses[Math.floor(Math.random() * statuses.length)],
-  order_payment: "Paypal",
-  crateDate: "2024-05-10T08:30:07.522Z",
-}));
+// Function to get a random status
+const getRandomStatus = () =>
+  statuses[Math.floor(Math.random() * statuses.length)];
+
+const mockOrder = Array.from({ length: 50 }, (_, index) => {
+  if (index < 5) {
+    return {
+      oderId: index,
+      status: statuses[index],
+      name_shop: "Atrastino",
+      shopId: "657dcd5a25b94a98c4b4945e",
+      avatar_shop:
+        "uploads/1702818409168-rn_image_picker_lib_temp_d63212ab-baa6-437a-b395-22d30bc6d1ef.png",
+      product_name: "Nước hoa CM24 ICONIC COOL EDP",
+      product_thumb: [
+        "1702770450767-cm2312341.jpg",
+        "1702770450770-thumb168-cm24-50ml-1.jpg",
+        "1702770450773-thumb168-cm24-50ml-3.jpg",
+        "1702770450774-IconicCool_4.jpg",
+        "1702770450774-IconicCool_6.jpg",
+        "1702770450779-IconicCool.jpg",
+      ],
+      product_attributes: {
+        price: 519000,
+        quantity: 3,
+        productId: "657e371225b94a98c4b4eff4",
+        color: "Đen",
+        size: "5l",
+      },
+      order_checkout: {
+        totalPrice: 1557000,
+        feeShip: 30000,
+        totalDiscount: 0,
+        totalCheckout: 1557000,
+      },
+      order_status: statuses[index],
+      order_payment: "Paypal",
+      crateDate: "2024-05-10T08:30:07.522Z",
+    };
+  } else {
+    return {
+      oderId: index,
+      status: "pending",
+      name_shop: "Atrastino",
+      shopId: "657dcd5a25b94a98c4b4945e",
+      avatar_shop:
+        "uploads/1702818409168-rn_image_picker_lib_temp_d63212ab-baa6-437a-b395-22d30bc6d1ef.png",
+      product_name: "Nước hoa CM24 ICONIC COOL EDP",
+      product_thumb: [
+        "1702770450767-cm2312341.jpg",
+        "1702770450770-thumb168-cm24-50ml-1.jpg",
+        "1702770450773-thumb168-cm24-50ml-3.jpg",
+        "1702770450774-IconicCool_4.jpg",
+        "1702770450774-IconicCool_6.jpg",
+        "1702770450779-IconicCool.jpg",
+      ],
+      product_attributes: {
+        price: 519000,
+        quantity: 3,
+        productId: "657e371225b94a98c4b4eff4",
+        color: "Đen",
+        size: "5l",
+      },
+      order_checkout: {
+        totalPrice: 1557000,
+        feeShip: 30000,
+        totalDiscount: 0,
+        totalCheckout: 1557000,
+      },
+      order_status: getRandomStatus(),
+      order_payment: "Paypal",
+      crateDate: "2024-05-10T08:30:07.522Z",
+    };
+  }
+});
 const mockReducer = (state = {}, action) => state;
 
 describe("Profile", () => {
@@ -318,6 +361,7 @@ describe("Order", () => {
   beforeEach(() => {
     render(<ListOrder orderData={mockOrder} />);
     cancelByUser.mockResolvedValueOnce({});
+    changeStatusByUser.mockResolvedValueOnce({});
   });
   it("change page order", () => {
     const pagination = screen.getByTestId("panigation_order");
@@ -342,4 +386,9 @@ describe("Order", () => {
       fireEvent.click(btnCancelOrder[0]);
     });
   });
+});
+
+it("render order no order", async () => {
+  render(<ListOrder orderData={[]} />);
+  expect(screen.getByText("Chưa có đơn hàng nào")).toBeInTheDocument();
 });

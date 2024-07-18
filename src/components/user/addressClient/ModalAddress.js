@@ -141,15 +141,19 @@ const ModalAddress = ({ getData }) => {
             label="Tỉnh/Thành phố"
           >
             <Select
+              data-testid="combo"
               className="form-select form-select-sm mb-3"
-              value={selectedCity}
               onChange={handleCityChange}
             >
               <Select.Option value="" disabled>
                 Chọn tỉnh thành
               </Select.Option>
               {cities.map((city) => (
-                <Select.Option key={city.Id} value={city.Id}>
+                <Select.Option
+                  data-testid="cityOption"
+                  key={city.Id}
+                  value={city.Id}
+                >
                   {city.Name}
                 </Select.Option>
               ))}

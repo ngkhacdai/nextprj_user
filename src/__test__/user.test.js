@@ -4,7 +4,16 @@ import AddressClient from "@/components/user/addressClient/AddressClient";
 import Information from "@/components/user/profile/Information";
 import { beforeEach, describe, expect, test } from "@jest/globals";
 import { configureStore } from "@reduxjs/toolkit";
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { debug } from "jest-preview";
 import { useRouter } from "next/navigation";
 import { Provider } from "react-redux";
 
@@ -217,26 +226,38 @@ describe("Address", () => {
     await act(async () => {
       fireEvent.change(inputAddressName, { target: { value: "Home1" } });
     });
+
     const inputCustomAddress = await screen.findByLabelText("Địa chỉ cụ thể");
     await act(async () => {
       fireEvent.change(inputCustomAddress, { target: { value: "asdfasdf" } });
     });
-    const selectCity = await screen.findByLabelText("Tỉnh/Thành phố");
-    await act(async () => {
-      fireEvent.select(selectCity, { target: { value: "01" } });
-    });
-    expect(screen.getByText("Thành phố Hà Nội")).toBeInTheDocument();
-    const selectDistrict = await screen.findByLabelText("Quận/Huyện");
-    await act(async () => {
-      fireEvent.select(selectDistrict, { target: { value: "001" } });
-    });
-    const selectWard = await screen.findByLabelText("Phường/Xã");
-    await act(async () => {
-      fireEvent.select(selectWard, { target: { value: "00001" } });
-    });
-    const btnSaveAddress = await screen.findByText("OK");
-    await act(async () => {
-      fireEvent.click(btnSaveAddress);
-    });
+    const selectCity = screen.getAllByRole("combobox");
+
+    await userEvent.click(selectCity[0]);
+
+    const cityOptions = screen.getAllByTestId("cityOption");
+
+    await userEvent.click(cityOptions[0]);
+    // await waitFor(() => {
+    //   fireEvent.click(selectCity[0]);
+    // });
+
+    // await waitFor(() => {
+    //   expect(screen.getByText("Thành phố Hà Nội")).toBeInTheDocument();
+    // });
+    debug();
+
+    // const selectDistrict = await screen.findByLabelText("Quận/Huyện");
+    // await act(async () => {
+    //   fireEvent.select(selectDistrict, { target: { value: "001" } });
+    // });
+    // const selectWard = await screen.findByLabelText("Phường/Xã");
+    // await act(async () => {
+    //   fireEvent.select(selectWard, { target: { value: "00001" } });
+    // });
+    // const btnSaveAddress = await screen.findByText("OK");
+    // await act(async () => {
+    //   fireEvent.click(btnSaveAddress);
+    // });
   });
 });

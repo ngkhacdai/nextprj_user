@@ -71,7 +71,7 @@ const ModalAddress = ({ getData }) => {
     setSelectedCity(value);
     setSelectedDistrict("");
     setDistricts(cities.find((city) => city.Id === value)?.Districts || []);
-    setWards([]); // Reset danh sách phường/xã khi chọn lại thành phố
+    setWards([]);
     form.setFieldsValue({ district: "", ward: "" });
   };
 
@@ -149,7 +149,11 @@ const ModalAddress = ({ getData }) => {
                 Chọn tỉnh thành
               </Select.Option>
               {cities.map((city) => (
-                <Select.Option key={city.Id} value={city.Id}>
+                <Select.Option
+                  data-testid="cityOption"
+                  key={city.Id}
+                  value={city.Id}
+                >
                   {city.Name}
                 </Select.Option>
               ))}
@@ -173,7 +177,11 @@ const ModalAddress = ({ getData }) => {
                 Chọn quận huyện
               </Select.Option>
               {districts.map((district) => (
-                <Select.Option key={district.Id} value={district.Id}>
+                <Select.Option
+                  data-testid="districtOption"
+                  key={district.Id}
+                  value={district.Id}
+                >
                   {district.Name}
                 </Select.Option>
               ))}
@@ -197,7 +205,11 @@ const ModalAddress = ({ getData }) => {
                 Chọn phường xã
               </Select.Option>
               {wards.map((ward) => (
-                <Select.Option key={ward.Id} value={ward.Id}>
+                <Select.Option
+                  data-testid="wardOption"
+                  key={ward.Id}
+                  value={ward.Id}
+                >
                   {ward.Name}
                 </Select.Option>
               ))}

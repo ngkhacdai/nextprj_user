@@ -114,7 +114,7 @@ const ListOrder = ({ orderData }) => {
                     )}
                   </span>
                   <Dropdown
-                    overlay={
+                    menu={
                       <Menu>
                         <Menu.Item>
                           {convertTimestamp(item.crateDate)}
@@ -189,6 +189,7 @@ const ListOrder = ({ orderData }) => {
           pageSize={10}
           showSizeChanger={false}
           onChange={changePage}
+          data-testid="panigation_order"
         />
       )}
     </div>

@@ -1,8 +1,10 @@
 import "@/__mock__/match_media.mock";
+import { cancelByUser } from "@/api/Order";
 import { addAddress, deleteAddress, updateProfile } from "@/api/User";
 import AddressClient from "@/components/user/addressClient/AddressClient";
+import ListOrder from "@/components/user/ListOrder";
 import Information from "@/components/user/profile/Information";
-import { beforeEach, describe, expect, test } from "@jest/globals";
+import { beforeEach, describe, expect, it, test } from "@jest/globals";
 import { configureStore } from "@reduxjs/toolkit";
 import {
   act,
@@ -15,6 +17,9 @@ import {
 import userEvent from "@testing-library/user-event";
 import { debug } from "jest-preview";
 import { useRouter } from "next/navigation";
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { usePathname, useRouter } from "next/navigation";
 import { Provider } from "react-redux";
 
 jest.mock("../api/User", () => ({
@@ -22,10 +27,26 @@ jest.mock("../api/User", () => ({
   deleteAddress: jest.fn(),
   addAddress: jest.fn(),
 }));
+jest.mock("../api/Order", () => ({
+  cancelByUser: jest.fn(),
+}));
+const mockUsePathname = jest.fn();
+
 jest.mock("next/navigation", () => ({
   __esModule: true,
   useRouter: jest.fn(),
+  usePathname: () => mockUsePathname,
 }));
+window.HTMLElement.prototype.scrollIntoView = function () {};
+
+// Modify the console.error mock to handle non-string errors gracefully
+console.error = jest.fn((error) => {
+  const errorMessage = typeof error === "string" ? error : error.message;
+  if (errorMessage.includes("findDOMNode")) {
+    return null;
+  }
+  console.log(error); // Use console.log to avoid recursion
+});
 
 const profile = {
   _id: "663994a9a406d088f89ed562",
@@ -77,6 +98,41 @@ const profile = {
   __v: 0,
 };
 
+const statuses = ["pending", "confirmed", "shipped", "cancelled", "delivered"];
+
+const mockOrder = Array.from({ length: 50 }, (_, index) => ({
+  oderId: index,
+  status: "pending",
+  name_shop: "Atrastino",
+  shopId: "657dcd5a25b94a98c4b4945e",
+  avatar_shop:
+    "uploads/1702818409168-rn_image_picker_lib_temp_d63212ab-baa6-437a-b395-22d30bc6d1ef.png",
+  product_name: "Nước hoa CM24 ICONIC COOL EDP",
+  product_thumb: [
+    "1702770450767-cm2312341.jpg",
+    "1702770450770-thumb168-cm24-50ml-1.jpg",
+    "1702770450773-thumb168-cm24-50ml-3.jpg",
+    "1702770450774-IconicCool_4.jpg",
+    "1702770450774-IconicCool_6.jpg",
+    "1702770450779-IconicCool.jpg",
+  ],
+  product_attributes: {
+    price: 519000,
+    quantity: 3,
+    productId: "657e371225b94a98c4b4eff4",
+    color: "Đen",
+    size: "5l",
+  },
+  order_checkout: {
+    totalPrice: 1557000,
+    feeShip: 30000,
+    totalDiscount: 0,
+    totalCheckout: 1557000,
+  },
+  order_status: statuses[Math.floor(Math.random() * statuses.length)],
+  order_payment: "Paypal",
+  crateDate: "2024-05-10T08:30:07.522Z",
+}));
 const mockReducer = (state = {}, action) => state;
 
 describe("Profile", () => {
@@ -182,6 +238,7 @@ describe("Address", () => {
     deleteAddress.mockResolvedValueOnce({});
     addAddress.mockResolvedValueOnce({});
   });
+
   it("close modal delete", async () => {
     const btnDeleteAddress = await screen.findAllByTestId("btnDeleteAddress");
     await act(async () => {
@@ -193,6 +250,7 @@ describe("Address", () => {
       fireEvent.click(btnCloseModalDelete);
     });
   });
+
   it("delete address", async () => {
     const btnDeleteAddress = await screen.findAllByTestId("btnDeleteAddress");
     await act(async () => {
@@ -205,6 +263,7 @@ describe("Address", () => {
     });
     expect(screen.getByText("Xóa địa chỉ thành công")).toBeInTheDocument();
   });
+
   it("close modal add address", async () => {
     const btnAddAddress = await screen.findByText("Thêm địa chỉ mới");
     await act(async () => {
@@ -216,7 +275,18 @@ describe("Address", () => {
       fireEvent.click(btnCloseModalAdd);
     });
   });
-  it("open modal and add address", async () => {
+  it("open modal and add address fail", async () => {
+    const btnAddAddress = await screen.findByText("Thêm địa chỉ mới");
+    await act(async () => {
+      fireEvent.click(btnAddAddress);
+    });
+    expect(screen.getByText("Địa chỉ mới")).toBeInTheDocument();
+    const btnSaveAddress = await screen.findByText("OK");
+    await act(async () => {
+      fireEvent.click(btnSaveAddress);
+    });
+  });
+  it("open modal and add address success", async () => {
     const btnAddAddress = await screen.findByText("Thêm địa chỉ mới");
     await act(async () => {
       fireEvent.click(btnAddAddress);
@@ -231,33 +301,57 @@ describe("Address", () => {
     await act(async () => {
       fireEvent.change(inputCustomAddress, { target: { value: "asdfasdf" } });
     });
-    const selectCity = screen.getAllByRole("combobox");
-
-    await userEvent.click(selectCity[0]);
-
+    const selectCity = await screen.findByLabelText("Tỉnh/Thành phố");
+    await userEvent.click(selectCity);
     const cityOptions = screen.getAllByTestId("cityOption");
+    await act(async () => {
+      fireEvent.click(cityOptions[0]);
+    });
+    const selectDistrict = await screen.findByLabelText("Quận/Huyện");
+    await userEvent.click(selectDistrict);
+    const districtOptions = screen.getAllByTestId("districtOption");
+    await act(async () => {
+      fireEvent.click(districtOptions[0]);
+    });
+    const selectWard = await screen.findByLabelText("Phường/Xã");
+    await userEvent.click(selectWard);
+    const wardOptions = screen.getAllByTestId("wardOption");
+    await act(async () => {
+      fireEvent.click(wardOptions[0]);
+    });
+    const btnSaveAddress = await screen.findByText("OK");
+    await act(async () => {
+      fireEvent.click(btnSaveAddress);
+    });
+  });
+});
 
-    await userEvent.click(cityOptions[0]);
-    // await waitFor(() => {
-    //   fireEvent.click(selectCity[0]);
-    // });
+describe("Order", () => {
+  beforeEach(() => {
+    render(<ListOrder orderData={mockOrder} />);
+    cancelByUser.mockResolvedValueOnce({});
+  });
+  it("change page order", () => {
+    const pagination = screen.getByTestId("panigation_order");
+    expect(pagination).toBeInTheDocument();
+    const secondPageLink = pagination.getElementsByTagName("a")[1];
 
-    // await waitFor(() => {
-    //   expect(screen.getByText("Thành phố Hà Nội")).toBeInTheDocument();
-    // });
-    debug();
-
-    // const selectDistrict = await screen.findByLabelText("Quận/Huyện");
-    // await act(async () => {
-    //   fireEvent.select(selectDistrict, { target: { value: "001" } });
-    // });
-    // const selectWard = await screen.findByLabelText("Phường/Xã");
-    // await act(async () => {
-    //   fireEvent.select(selectWard, { target: { value: "00001" } });
-    // });
-    // const btnSaveAddress = await screen.findByText("OK");
-    // await act(async () => {
-    //   fireEvent.click(btnSaveAddress);
-    // });
+    // Click the second page link
+    fireEvent.click(secondPageLink);
+  });
+  it("cancel order", async () => {
+    const btnCancelOrder = screen.getAllByText("Hủy đơn hàng");
+    expect(btnCancelOrder[0]).toBeInTheDocument();
+    await act(async () => {
+      fireEvent.click(btnCancelOrder[0]);
+    });
+    expect(screen.getByText("Đã hủy đơn hàng thành công")).toBeInTheDocument();
+  });
+  it("delivered order", async () => {
+    const btnCancelOrder = screen.getAllByText("Nhận hàng");
+    expect(btnCancelOrder[0]).toBeInTheDocument();
+    await act(async () => {
+      fireEvent.click(btnCancelOrder[0]);
+    });
   });
 });

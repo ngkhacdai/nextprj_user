@@ -1,3 +1,4 @@
+"use client";
 import { Button, Table } from "antd";
 import { useDispatch } from "react-redux";
 import { API } from "@/helper/url";

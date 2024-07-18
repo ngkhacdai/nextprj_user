@@ -1,3 +1,4 @@
+"use client";
 import { Button, Col, Modal, Radio, Row, Space } from "antd";
 import { useState } from "react";
 
